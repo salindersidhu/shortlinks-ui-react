@@ -1,3 +1,12 @@
+# Mac
+.DS_Store
+
+# Build folder
+build
+
+# IDE - VSCode
+.vscode
+
 # Logs
 logs
 *.log
@@ -59,3 +68,6 @@ typings/
 
 # next.js build output
 .next
+
+# Generated documentation
+docs
