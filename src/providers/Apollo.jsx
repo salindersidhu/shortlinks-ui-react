@@ -1,5 +1,4 @@
 import React from 'react';
-import App from './App';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
@@ -14,8 +13,12 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-export default (
-    <ApolloProvider client={client}>
-        <App />
-    </ApolloProvider>
-)
+function Apollo({app: App}) {
+    return (
+        <ApolloProvider client={client}>
+            <App />
+        </ApolloProvider>
+    )
+}
+
+export default Apollo;

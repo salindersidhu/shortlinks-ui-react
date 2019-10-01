@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot --port 3000",
     "build": "webpack-cli --mode production",
+    "build:clean": "rm -rf build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
