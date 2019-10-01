@@ -20,12 +20,12 @@
   "homepage": "https://github.com/salindersidhu/shortlinks-ui-react#readme",
   "dependencies": {
     "react": "^16.10.1",
-    "react-dom": "^16.10.1"
+    "react-dom": "^16.10.1",
+    "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
     "@apollo/react-hooks": "^3.1.1",
     "@types/react": "^16.9.4",
-    "adminbsb-materialdesign": "^1.0.7",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link-http": "^1.5.16",

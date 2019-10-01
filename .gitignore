@@ -1,9 +1,6 @@
 # Mac
 .DS_Store
 
-# Build folder
-build
-
 # IDE - VSCode
 .vscode
 
