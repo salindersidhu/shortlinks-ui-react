@@ -10,13 +10,10 @@ module.exports = {
     resolve: {
         extensions: [".webpack.js", ".web.js", ".js", ".json", '.jsx']
     },
-    devServer: {
-        historyApiFallback: true
-    },
     module: {
         rules: [
             {
-                test: /\.js*/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
