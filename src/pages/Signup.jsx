@@ -42,85 +42,79 @@ function Signup() {
     });
 
 	const onChange = (event) => {
-		setFormValues({
-			...formValues,
-			[event.target.name]: event.target.value
-		});
+        setFormValues({
+            ...formValues,
+            [event.target.name]: event.target.value
+        });
     }
     
-	const onSubmit = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
         addUser();
     }
 
     return (
-		<Grid
-			textAlign='center'
-			style={{ height: '100vh' }}
-			verticalAlign='middle'
-		>
-			<Grid.Column
-				style={{ maxWidth: 450 }}
-			>
-				<Header
-					as='h2'
-					color='black'
-					textAlign='center'
-				>
-					<Image src='/public/logo.svg'/>
+        <Grid
+            textAlign='center'
+            style={{ height: '100vh' }}
+            verticalAlign='middle'
+        >
+            <Grid.Column style={{ maxWidth: 450 }}>
+                <Header as='h2' color='black' textAlign='center'>
+                    <Image src='/public/logo.svg'/>
                     Create your account
-				</Header>
-				<Form
-					size='large'
+                </Header>
+                <Form
+                    size='large'
                     onSubmit={onSubmit}
                     className={loading ? 'loading' : ''}
-					noValidate
-				>
-					<Segment stacked>
+                    noValidate
+                >
+                    <Segment stacked>
                         <Form.Input
-							fluid
-							icon='user'
-							type='text'
-							iconPosition='left'
-							name='name'
-							onChange={onChange}
-							value={formValues.name}
-							placeholder='User Name'
-						/>
-						<Form.Input
-							fluid
-							icon='envelope'
-							type='text'
-							iconPosition='left'
-							name='email'
-							onChange={onChange}
-							value={formValues.email}
-							placeholder='E-mail Address'
-						/>
-						<Form.Input
-							fluid
-							icon='lock'
-							type='password'
-							iconPosition='left'
-							name='password'
-							onChange={onChange}
-							value={formValues.password}
-							placeholder='Password'
-						/>
-						<Button
-							fluid
-							color='black'
-							size='large'
-						>
-							Sign Up
-						</Button>
-					</Segment>
-				</Form>
-				<Message>
-					Already have an account? <a href='/login'>Login</a>
-				</Message>
-			</Grid.Column>
-		</Grid>
+                            fluid
+                            icon='user'
+                            type='text'
+                            iconPosition='left'
+                            name='name'
+                            onChange={onChange}
+                            value={formValues.name}
+                            placeholder='User Name'
+                        />
+                        <Form.Input
+                            fluid
+                            icon='envelope'
+                            type='text'
+                            iconPosition='left'
+                            name='email'
+                            onChange={onChange}
+                            value={formValues.email}
+                            placeholder='E-mail Address'
+                        />
+                        <Form.Input
+                            fluid
+                            icon='lock'
+                            type='password'
+                            iconPosition='left'
+                            name='password'
+                            onChange={onChange}
+                            value={formValues.password}
+                            placeholder='Password'
+                        />
+                        <Button
+                            fluid
+                            color='black'
+                            size='large'
+                        >
+                            Sign Up
+                        </Button>
+                    </Segment>
+                </Form>
+                <Message>
+                    Already have an account? <a href='/login'>Login</a>
+                </Message>
+            </Grid.Column>
+        </Grid>
     );
 }
 
