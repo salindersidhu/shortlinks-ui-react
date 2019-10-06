@@ -52,19 +52,19 @@ function Login() {
 						<Form.Input
 							fluid
 							icon='envelope'
-							type="text"
+							type='text'
 							iconPosition='left'
-							name="email"
+							name='email'
 							onChange={onChange}
 							value={formValues.email}
-							placeholder='E-mail address'
+							placeholder='E-mail Address'
 						/>
 						<Form.Input
 							fluid
 							icon='lock'
 							type='password'
 							iconPosition='left'
-							name="password"
+							name='password'
 							onChange={onChange}
 							value={formValues.password}
 							placeholder='Password'
