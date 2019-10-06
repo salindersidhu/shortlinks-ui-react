@@ -4,7 +4,7 @@
   "description": "A link shortner app built using Node and React",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --hot --port 3000 --config webpack.dev.js",
+    "start": "webpack-dev-server --open --hot --debug --output-pathinfo --port 3000 --config webpack.dev.js",
     "build": "webpack-cli --config webpack.prod.js",
     "build:clean": "rm -rf build",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,11 +32,13 @@
     "apollo-link-http": "^1.5.16",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
     "html-webpack-plugin": "^3.2.0",
     "install": "^0.13.0",
     "npm": "^6.11.3",

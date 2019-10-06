@@ -4,9 +4,10 @@ const common  = require('./webpack.common.js');
 
 module.exports = merge(common, {
     mode: 'development',
+    devtool: 'source-map',
     plugins: [
         new webpack.DefinePlugin({
-            GRAPHQL_API: JSON.stringify('http://localhost:8000')
+            GRAPHQL_API: JSON.stringify('http://localhost:8000/graphql')
         })
     ],
     devServer: {

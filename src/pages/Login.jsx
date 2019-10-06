@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Button,
     Form,
@@ -10,6 +10,22 @@ import {
 } from 'semantic-ui-react';
 
 function Login() {
+	const [formValues, setFormValues] = useState({
+		email: '',
+		password: ''
+	});
+
+	const onChange = (event) => {
+		setFormValues({
+			...formValues,
+			[event.target.name]: event.target.value
+		});
+	}
+
+	const onSubmit = (event) => {
+		event.preventDefault();
+	}
+
     return (
 		<Grid
 			textAlign='center'
@@ -27,20 +43,31 @@ function Login() {
 					<Image src='/public/logo.svg'/>
 					Log-in to your account
 				</Header>
-				<Form size='large'>
+				<Form
+					size='large'
+					onSubmit={onSubmit}
+					noValidate
+				>
 					<Segment stacked>
 						<Form.Input
 							fluid
 							icon='envelope'
+							type="text"
 							iconPosition='left'
+							name="email"
+							onChange={onChange}
+							value={formValues.email}
 							placeholder='E-mail address'
 						/>
 						<Form.Input
 							fluid
 							icon='lock'
-							iconPosition='left'
-							placeholder='Password'
 							type='password'
+							iconPosition='left'
+							name="password"
+							onChange={onChange}
+							value={formValues.password}
+							placeholder='Password'
 						/>
 						<Button
 							fluid
@@ -52,7 +79,7 @@ function Login() {
 					</Segment>
 				</Form>
 				<Message>
-					New to Shortlinks? <a href='#'>Sign Up</a>
+					New to Shortlinks? <a href='/signup'>Sign Up</a>
 				</Message>
 			</Grid.Column>
 		</Grid>
