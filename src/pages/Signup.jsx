@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {useMutation} from '@apollo/react-hooks';
 import {
     List,
@@ -13,6 +13,7 @@ import {
 import gql from 'graphql-tag';
 
 import { useForm } from '../hooks';
+import { AuthContext } from '../context/auth';
 
 const REGISTER_USER = gql`
     mutation register(
@@ -34,7 +35,8 @@ const REGISTER_USER = gql`
     }
 `;
 
-function Signup() {
+function Signup(props) {
+    const context = useContext(AuthContext);
     const [errors, setErrors] = useState({});
     const { onChange, onSubmit, values } = useForm(registerUserCallback, {
         username: '',
@@ -43,8 +45,9 @@ function Signup() {
         confirmPassword: ''
     });
     const [addUser, { loading }] = useMutation(REGISTER_USER, {
-        update(_, result) {
-            console.log(result);
+        update(_, { data: { register: userData } }) {
+            context.login(userData);
+            props.history.push('/');
         },
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);

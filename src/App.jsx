@@ -6,17 +6,19 @@ import './App.css'
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import { AuthProvider } from './context/auth';
+import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
     return (
-        <Router>
-            <Route exact path='/'>
-                <Redirect to='/login' />
-            </Route>
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/signup' component={Signup} />
-            <Route exact path='/dashboard' component={Dashboard} />
-        </Router>
+        <AuthProvider>
+            <Router>
+                <PrivateRoute exact path='/' component={Dashboard} />
+                <PublicRoute exact path='/login' component={Login} />
+                <PublicRoute exact path='/signup' component={Signup} />
+            </Router>
+        </AuthProvider>
     )
 }
 
