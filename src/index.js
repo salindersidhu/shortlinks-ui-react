@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Apollo from './providers/Apollo';
+import Apollo from './Apollo';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<Apollo app={App}/>, document.getElementById('root'));

@@ -10,7 +10,7 @@ if (localStorage.getItem('token')) {
 
 const AuthContext = createContext({
     user: null,
-    login: (userData) => {},
+    login: (_) => {},
     logout: () => {}
 });
 
