@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useMutation} from '@apollo/react-hooks';
 import {
+    List,
     Button,
     Form,
     Grid,
@@ -11,45 +12,47 @@ import {
 } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 
-const CREATE_USER = gql`
-    mutation createUser(
-        $name: String!,
-        $email: String!,
+import { useForm } from '../hooks';
+
+const REGISTER_USER = gql`
+    mutation register(
+        $username: String!
+        $email: String!
         $password: String!
-        ){
-        createUser(input: {
-            name: $name
-            email: $email,
-            password: $password
-        }) {
-            name
+        $confirmPassword: String!
+    ) {
+        register(
+            registerInput: {
+                username: $username
+                email: $email
+                password: $password
+                confirmPassword: $confirmPassword
+            }
+        ) {
+            token
         }
     }
-`
+`;
 
 function Signup() {
-    const [formValues, setFormValues] = useState({
-        name: '',
+    const [errors, setErrors] = useState({});
+    const { onChange, onSubmit, values } = useForm(registerUserCallback, {
+        username: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
-
-    const [addUser, {loading}] = useMutation(CREATE_USER, {
-        update(proxy, result){
+    const [addUser, { loading }] = useMutation(REGISTER_USER, {
+        update(_, result) {
             console.log(result);
         },
-        variables: formValues
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        },
+        variables: values
     });
 
-	const onChange = (event) => {
-        setFormValues({
-            ...formValues,
-            [event.target.name]: event.target.value
-        });
-    }
-    
-    const onSubmit = (event) => {
-        event.preventDefault();
+    function registerUserCallback() {
         addUser();
     }
 
@@ -76,10 +79,11 @@ function Signup() {
                             icon='user'
                             type='text'
                             iconPosition='left'
-                            name='name'
+                            name='username'
                             onChange={onChange}
-                            value={formValues.name}
-                            placeholder='User Name'
+                            value={values.username}
+                            error={errors.username ? true : false}
+                            placeholder='Username'
                         />
                         <Form.Input
                             fluid
@@ -88,8 +92,9 @@ function Signup() {
                             iconPosition='left'
                             name='email'
                             onChange={onChange}
-                            value={formValues.email}
-                            placeholder='E-mail Address'
+                            value={values.email}
+                            error={errors.email ? true : false}
+                            placeholder='Email'
                         />
                         <Form.Input
                             fluid
@@ -98,8 +103,20 @@ function Signup() {
                             iconPosition='left'
                             name='password'
                             onChange={onChange}
-                            value={formValues.password}
+                            value={values.password}
+                            error={errors.password ? true : false}
                             placeholder='Password'
+                        />
+                        <Form.Input
+                            fluid
+                            icon='lock'
+                            type='password'
+                            iconPosition='left'
+                            name='confirmPassword'
+                            onChange={onChange}
+                            value={values.confirmPassword}
+                            error={errors.confirmPassword ? true : false}
+                            placeholder='Confirm Password'
                         />
                         <Button
                             fluid
@@ -113,6 +130,20 @@ function Signup() {
                 <Message>
                     Already have an account? <a href='/login'>Login</a>
                 </Message>
+                {Object.keys(errors).length > 0 && (
+                    <div className="ui error message">
+                        <List>
+                            {Object.values(errors).map((value) => (
+                                <List.Item key={value}>
+                                    <List.Icon name='warning circle' />
+                                    <List.Content 
+                                        style={{ textAlign: 'left' }}
+                                    >{value}</List.Content>
+                                </List.Item>
+                            ))}
+                        </List>
+                    </div>
+                )}
             </Grid.Column>
         </Grid>
     );

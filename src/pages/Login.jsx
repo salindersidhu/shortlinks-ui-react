@@ -1,29 +1,53 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import {
+    List,
     Button,
     Form,
     Grid,
     Header,
     Image,
     Message,
-    Segment
+    Segment,
 } from 'semantic-ui-react';
+import gql from 'graphql-tag';
+
+import { useForm } from '../hooks';
+
+const LOGIN_USER = gql`
+    mutation login(
+        $email: String!
+        $password: String!
+    ) {
+        login(
+            loginInput: {
+                email: $email
+                password: $password
+            }
+        ) {
+            token
+        }
+    }
+`;
 
 function Login() {
-    const [formValues, setFormValues] = useState({
+    const [errors, setErrors] = useState({});
+    const { onChange, onSubmit, values } = useForm(loginUserCallback, {
         email: '',
-        password: ''
+        password: '',
     });
-    
-    const onChange = (event) => {
-        setFormValues({
-            ...formValues,
-            [event.target.name]: event.target.value
-        });
-    }
-    
-    const onSubmit = (event) => {
-        event.preventDefault();
+    const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+        update(_, result) {
+            console.log(result);
+        },
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        },
+        variables: values
+    });
+
+    function loginUserCallback() {
+        loginUser();
     }
     
     return (
@@ -37,7 +61,12 @@ function Login() {
                     <Image src='/public/logo.svg'/>
                     Log-in to your account
                 </Header>
-                <Form size='large' onSubmit={onSubmit} noValidate>
+                <Form
+                    size='large'
+                    onSubmit={onSubmit}
+                    className={loading ? 'loading' : ''}
+                    noValidate
+                >
                     <Segment stacked>
                         <Form.Input
                             fluid
@@ -46,8 +75,9 @@ function Login() {
                             iconPosition='left'
                             name='email'
                             onChange={onChange}
-                            value={formValues.email}
-                            placeholder='E-mail Address'
+                            value={values.email}
+                            error={errors.email ? true : false}
+                            placeholder='Email'
                         />
                         <Form.Input
                             fluid
@@ -56,7 +86,8 @@ function Login() {
                             iconPosition='left'
                             name='password'
                             onChange={onChange}
-                            value={formValues.password}
+                            value={values.password}
+                            error={errors.password ? true : false}
                             placeholder='Password'
                         />
                         <Button
@@ -71,6 +102,20 @@ function Login() {
                 <Message>
                     New to Shortlinks? <a href='/signup'>Sign Up</a>
                 </Message>
+                {Object.keys(errors).length > 0 && (
+                    <div className="ui error message">
+                        <List>
+                            {Object.values(errors).map((value) => (
+                                <List.Item key={value}>
+                                    <List.Icon name='warning circle' />
+                                    <List.Content 
+                                        style={{ textAlign: 'left' }}
+                                    >{value}</List.Content>
+                                </List.Item>
+                            ))}
+                        </List>
+                    </div>
+                )}
             </Grid.Column>
         </Grid>
     );
