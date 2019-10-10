@@ -6,6 +6,7 @@ import './App.css'
 import { AuthProvider } from './context/auth';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
+import ApolloProvider from './components/ApolloProvider';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -13,29 +14,31 @@ import Dashboard from './pages/Dashboard';
 
 function App() {
     return (
-        <AuthProvider>
-            <Router>
-                <PrivateRoute
-                    exact
-                    path='/'
-                    rootPath='/login'
-                    component={Dashboard}
-                />
-                <PublicRoute
-                    exact
-                    path='/login'
-                    authPath='/'
-                    component={Login}
-                />
-                <PublicRoute
-                    exact
-                    path='/signup'
-                    authPath='/'
-                    component={Signup}
-                />
-            </Router>
-        </AuthProvider>
-    )
+        <ApolloProvider>
+            <AuthProvider>
+                <Router>
+                    <PrivateRoute
+                        exact
+                        path='/'
+                        rootPath='/login'
+                        component={Dashboard}
+                    />
+                    <PublicRoute
+                        exact
+                        path='/login'
+                        authPath='/'
+                        component={Login}
+                    />
+                    <PublicRoute
+                        exact
+                        path='/signup'
+                        authPath='/'
+                        component={Signup}
+                    />
+                </Router>
+            </AuthProvider>
+        </ApolloProvider>
+    );
 }
 
 export default App;

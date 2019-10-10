@@ -13,12 +13,10 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-function Apollo({app: App}) {
+export default (props) => {
     return (
         <ApolloProvider client={client}>
-            <App />
+            { props.children }
         </ApolloProvider>
     )
 }
-
-export default Apollo;
