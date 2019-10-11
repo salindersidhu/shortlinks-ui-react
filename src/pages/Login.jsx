@@ -61,7 +61,7 @@ function Login(props) {
         >
             <Grid.Column style={{ maxWidth: 450 }}>
                 <Header as='h2' color='black' textAlign='center'>
-                    <Image src='/public/logo.svg'/>
+                    <Image src='/public/logo_black.svg'/>
                     Log-in to your account
                 </Header>
                 <Form
@@ -103,7 +103,7 @@ function Login(props) {
                     </Segment>
                 </Form>
                 <Message>
-                    New to Shortlinks? <a href='/signup'>Sign Up</a>
+                    New to Short Links? <a href='/signup'>Sign Up</a>
                 </Message>
                 {Object.keys(errors).length > 0 && (
                     <div className="ui error message">
