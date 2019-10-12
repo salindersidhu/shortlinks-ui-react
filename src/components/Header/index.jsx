@@ -11,7 +11,7 @@ import { AuthContext } from '../../context/auth';
 function Header() {
     const { logout } = useContext(AuthContext);
     return (
-        <Menu fixed='top' inverted>
+        <Menu fixed='top' inverted borderless>
             <Container>
                 <Menu.Item as='a' header>
                     <Image
@@ -21,19 +21,21 @@ function Header() {
                     />
                     Short Links
                 </Menu.Item>
-                <Dropdown
-                    text='Account'
-                    className='link item'
-                    pointing
-                >
-                    <Dropdown.Menu>
-                        <Dropdown.Item
-                            onClick={ logout }
-                        >
-                            Logout
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                <Menu.Menu position='right'>
+                    <Dropdown
+                        pointing
+                        text='Account'
+                        className='link item'
+                    >
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                onClick={ logout }
+                            >
+                                Logout
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Menu.Menu>
             </Container>
         </Menu>
     );
