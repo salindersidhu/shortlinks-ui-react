@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import {
     Container,
     Dropdown,
@@ -29,7 +29,7 @@ function Header() {
                     >
                         <Dropdown.Menu>
                             <Dropdown.Item
-                                onClick={ logout }
+                                onClick={logout}
                             >
                                 Logout
                             </Dropdown.Item>

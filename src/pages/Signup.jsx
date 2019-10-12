@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
-import {useMutation} from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import {
     List,
     Button,
@@ -151,5 +152,9 @@ function Signup(props) {
         </Grid>
     );
 }
+
+Signup.propTypes = {
+    history: PropTypes.object
+};
 
 export default Signup;

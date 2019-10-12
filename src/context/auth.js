@@ -10,24 +10,26 @@ if (localStorage.getItem('token')) {
 
 const AuthContext = createContext({
     user: null,
-    login: (_) => {},
+    /* eslint-disable */
+    login: (userData) => {},
+    /* eslint-enable */
     logout: () => {}
 });
 
 function authReducer(state, action) {
     switch(action.type) {
-        case 'LOGIN':
-            return {
-                ...state,
-                user: action.payload
-            }
-        case 'LOGOUT':
-            return {
-                ...state,
-                user: null
-            }
-        default:
-            return state;
+    case 'LOGIN':
+        return {
+            ...state,
+            user: action.payload
+        };
+    case 'LOGOUT':
+        return {
+            ...state,
+            user: null
+        };
+    default:
+        return state;
     }
 }
 
@@ -50,7 +52,7 @@ function AuthProvider(props) {
     return (
         <AuthContext.Provider
             value={{ user: state.user, login, logout }}
-            { ...props }
+            {...props}
         />
     );
 }

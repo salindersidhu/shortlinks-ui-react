@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import {
@@ -123,5 +124,9 @@ function Login(props) {
         </Grid>
     );
 }
+
+Login.propTypes = {
+    history: PropTypes.object
+};
 
 export default Login;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css'
-import './App.css'
+import 'semantic-ui-css/semantic.min.css';
+import './App.css';
 
 import { AuthProvider } from './context/auth';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
-import ApolloProvider from './components/ApolloProvider';
+import ApolloSystem from './components/ApolloSystem';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -14,7 +14,7 @@ import Dashboard from './pages/Dashboard';
 
 function App() {
     return (
-        <ApolloProvider>
+        <ApolloSystem>
             <AuthProvider>
                 <Router>
                     <PrivateRoute
@@ -37,7 +37,7 @@ function App() {
                     />
                 </Router>
             </AuthProvider>
-        </ApolloProvider>
+        </ApolloSystem>
     );
 }
 
