@@ -18,7 +18,7 @@ function PublicRoute({ component: Component, authPath, ...rest }) {
 
 PublicRoute.propTypes = {
     authPath: PropTypes.string.isRequired,
-    component: PropTypes.object.isRequired
+    component: PropTypes.func.isRequired
 };
 
 export default PublicRoute;

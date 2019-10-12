@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 
 import { useForm } from '../hooks';
 import { AuthContext } from '../context/auth';
+import PasswordMeter from '../components/PasswordMeter';
 
 const REGISTER_USER = gql`
     mutation register(
@@ -111,6 +112,7 @@ function Signup(props) {
                             error={errors.password ? true : false}
                             placeholder='Password'
                         />
+                        <PasswordMeter value={values.password} />
                         <Form.Input
                             fluid
                             icon='lock'
