@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import ShortLinksHeader from '../components/Header';
+import ShortLinksFooter from '../components/Footer';
 
 function Dashboard() {
     return (
         <Fragment>
-            <Header />
-            <Footer />
+            <ShortLinksHeader />
+            <ShortLinksFooter />
         </Fragment>
     );
 }

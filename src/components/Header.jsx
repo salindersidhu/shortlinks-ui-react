@@ -6,7 +6,7 @@ import {
     Menu
 } from 'semantic-ui-react';
 
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../context/auth';
 
 function Header() {
     const { logout } = useContext(AuthContext);
