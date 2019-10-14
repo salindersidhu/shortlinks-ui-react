@@ -103,7 +103,7 @@ function Login(props) {
                         </Button>
                     </Segment>
                 </Form>
-                <Message>
+                <Message color='yellow'>
                     New to Short Links? <a href='/signup'>Sign Up</a>
                 </Message>
                 {Object.keys(errors).length > 0 && (

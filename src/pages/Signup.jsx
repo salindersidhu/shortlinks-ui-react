@@ -133,7 +133,7 @@ function Signup(props) {
                         </Button>
                     </Segment>
                 </Form>
-                <Message>
+                <Message color='yellow'>
                     Already have an account? <a href='/login'>Login</a>
                 </Message>
                 {Object.keys(errors).length > 0 && (
