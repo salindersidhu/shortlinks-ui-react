@@ -1,20 +1,22 @@
 import React, { Fragment } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import {
+    Grid,
+    Icon,
+    Label,
+    Table,
+    Popup,
+    Loader,
+    Button,
     Header,
-    Container,
     Message,
     Divider,
-    Grid,
     Segment,
-    Table,
-    Loader,
-    Checkbox,
-    Button,
-    Icon
+    Container
 } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 
+import { copyToClipboard } from '../utils';
 import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
 
@@ -23,9 +25,11 @@ const FETCH_LINKS = gql`
         getLinks {
             _id
             name
+            active
             longURL
             shortURL
             createdBy
+            updatedAt
         }
     }
 `;
@@ -35,6 +39,10 @@ function Dashboard() {
         loading,
         data 
     } = useQuery(FETCH_LINKS);
+
+    function copyLinkToClipboard(shortID) {
+        copyToClipboard(`${window.location.href}${shortID}`);
+    }
 
     return (
         <Fragment>
@@ -82,7 +90,7 @@ function Dashboard() {
                             <Table.HeaderCell>Status</Table.HeaderCell>
                             <Table.HeaderCell>Name</Table.HeaderCell>
                             <Table.HeaderCell>Original Link</Table.HeaderCell>
-                            <Table.HeaderCell>Date Modified</Table.HeaderCell>
+                            <Table.HeaderCell>Last Modified</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -99,7 +107,9 @@ function Dashboard() {
                                     data.getLinks.map(link => (
                                         <Table.Row key={link._id}>
                                             <Table.Cell collapsing>
-                                                <Checkbox toggle defaultChecked />
+                                                <Label color={link.active ? 'green' : 'red'}>
+                                                    {link.active ? 'Active' : 'Disabled'}
+                                                </Label>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 {link.name}
@@ -108,18 +118,41 @@ function Dashboard() {
                                                 {link.longURL}
                                             </Table.Cell>
                                             <Table.Cell>
-                                                {new Date().toLocaleString()}
+                                                {new Date(parseInt(link.updatedAt)).toLocaleString()}
                                             </Table.Cell>
                                             <Table.Cell>
-                                                <Button icon>
-                                                    <Icon name='copy' />
-                                                </Button>
-                                                <Button icon>
-                                                    <Icon name='edit' />
-                                                </Button>
-                                                <Button icon color='red'>
-                                                    <Icon name='delete' />
-                                                </Button>
+                                                <Popup
+                                                    trigger={
+                                                        <Button
+                                                            icon
+                                                            onClick={() => {
+                                                                copyLinkToClipboard(link.shortURL);
+                                                            }}
+                                                        >
+                                                            <Icon name='linkify' />
+                                                        </Button>
+                                                    }
+                                                    content='Copy Short Link'
+                                                    inverted
+                                                />
+                                                <Popup
+                                                    trigger={
+                                                        <Button icon>
+                                                            <Icon name='edit' />
+                                                        </Button>
+                                                    }
+                                                    content='Edit'
+                                                    inverted
+                                                />
+                                                <Popup
+                                                    trigger={
+                                                        <Button icon color='red'>
+                                                            <Icon name='delete' />
+                                                        </Button>
+                                                    }
+                                                    content='Delete'
+                                                    inverted
+                                                />
                                             </Table.Cell>
                                         </Table.Row>
                                     ))
