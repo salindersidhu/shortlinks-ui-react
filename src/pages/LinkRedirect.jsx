@@ -6,8 +6,7 @@ import { useParams } from 'react-router-dom';
 
 const FETCH_PUBLIC_LINKS = gql`
     {
-        getLinks {
-            active
+        getPublicLinks {
             longURL
             shortURL
         }
@@ -20,10 +19,10 @@ function LinkRedirect() {
 
     if (!loading) {
         // Extract all links from data
-        const { getLinks: links } = data;
+        const { getPublicLinks: links } = data;
         // Filter out an active link by short URL 
         const redirectURL = links.filter(
-            link => link.shortURL === shortURL && link.active === true
+            link => link.shortURL === shortURL
         )[0].longURL;
         // Redirect using long URL
         window.location = redirectURL;
