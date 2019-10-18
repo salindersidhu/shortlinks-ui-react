@@ -22,7 +22,7 @@ const LOGIN_USER = gql`
         $password: String!
     ) {
         login(
-            loginInput: {
+            input: {
                 email: $email
                 password: $password
             }

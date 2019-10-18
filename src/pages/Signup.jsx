@@ -25,7 +25,7 @@ const REGISTER_USER = gql`
         $confirmPassword: String!
     ) {
         register(
-            registerInput: {
+            input: {
                 username: $username
                 email: $email
                 password: $password
