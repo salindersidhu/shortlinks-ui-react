@@ -11,31 +11,11 @@ import {
     Message,
     Segment
 } from 'semantic-ui-react';
-import gql from 'graphql-tag';
 
 import { useForm } from '../hooks';
+import { REGISTER_USER } from '../graphql';
 import { AuthContext } from '../context/auth';
 import PasswordMeter from '../components/PasswordMeter';
-
-const REGISTER_USER = gql`
-    mutation register(
-        $username: String!
-        $email: String!
-        $password: String!
-        $confirmPassword: String!
-    ) {
-        register(
-            input: {
-                username: $username
-                email: $email
-                password: $password
-                confirmPassword: $confirmPassword
-            }
-        ) {
-            token
-        }
-    }
-`;
 
 function Signup(props) {
     const context = useContext(AuthContext);

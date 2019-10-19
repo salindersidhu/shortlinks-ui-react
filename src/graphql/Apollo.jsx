@@ -26,7 +26,7 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-function ApolloSystem(props) {
+function Apollo(props) {
     return (
         <ApolloProvider client={client}>
             {props.children}
@@ -34,8 +34,8 @@ function ApolloSystem(props) {
     );
 }
 
-ApolloSystem.propTypes = {
+Apollo.propTypes = {
     children: PropTypes.object
 };
 
-export default ApolloSystem;
+export default Apollo;

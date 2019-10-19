@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
+import Apollo from './graphql/Apollo';
 import { AuthProvider } from './context/auth';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
-import ApolloSystem from './components/ApolloSystem';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -15,7 +15,7 @@ import LinkRedirect from './pages/LinkRedirect';
 
 function App() {
     return (
-        <ApolloSystem>
+        <Apollo>
             <AuthProvider>
                 <Router>
                     <Switch>
@@ -45,7 +45,7 @@ function App() {
                     </Switch>
                 </Router>
             </AuthProvider>
-        </ApolloSystem>
+        </Apollo>
     );
 }
 

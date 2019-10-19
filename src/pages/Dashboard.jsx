@@ -14,31 +14,14 @@ import {
     Segment,
     Container
 } from 'semantic-ui-react';
-import gql from 'graphql-tag';
 
+import { GET_LINKS } from '../graphql';
 import { copyToClipboard } from '../utils';
 import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
 
-const FETCH_LINKS = gql`
-    {
-        getLinks {
-            _id
-            name
-            active
-            longURL
-            shortURL
-            createdBy
-            updatedAt
-        }
-    }
-`;
-
 function Dashboard() {
-    const {
-        loading,
-        data 
-    } = useQuery(FETCH_LINKS);
+    const { loading, data } = useQuery(GET_LINKS);
 
     function copyLinkToClipboard(shortID) {
         copyToClipboard(`${window.location.href}${shortID}`);
