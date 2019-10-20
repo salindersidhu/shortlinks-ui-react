@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useApolloClient } from '@apollo/react-hooks';
 import {
     Container,
     Dropdown,
@@ -10,6 +11,7 @@ import { AuthContext } from '../context/auth';
 
 function Header() {
     const { logout } = useContext(AuthContext);
+    const client = useApolloClient();
     return (
         <Menu
             inverted
@@ -33,7 +35,10 @@ function Header() {
                     >
                         <Dropdown.Menu>
                             <Dropdown.Item
-                                onClick={logout}
+                                onClick={() => {
+                                    client.resetStore();
+                                    logout();
+                                }}
                             >
                                 Logout
                             </Dropdown.Item>
