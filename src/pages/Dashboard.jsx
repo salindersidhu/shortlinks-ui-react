@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import {
-    Grid,
     Icon,
     Label,
     Table,
@@ -11,32 +10,65 @@ import {
     Header,
     Message,
     Divider,
-    Segment,
     Container
 } from 'semantic-ui-react';
 
 import { GET_LINKS } from '../graphql';
 import { copyToClipboard } from '../utils';
+
+import Dialog from '../components/Dialog';
 import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
 
 function Dashboard() {
     const { loading, data } = useQuery(GET_LINKS);
+    const [dialog, setDialog] = useState({
+        title: '',
+        content: '',
+        open: false
+    });
 
-    function copyLinkToClipboard(shortID) {
-        copyToClipboard(`${window.location.href}${shortID}`);
+    function closeDialog() {
+        setDialog({
+            title: '',
+            content: '',
+            open: false
+        });
+    }
+
+    function copyLink(shortId) {
+        copyToClipboard(`${window.location.href}${shortId}`);
+    }
+
+    function deleteLink(link) {
+        setDialog({
+            open: true,
+            title: 'Delete Link',
+            content: `Are you sure you want to delete "${link.name}"?`
+        });
     }
 
     return (
         <Fragment>
+            <Dialog
+                size='tiny'
+                type='decision'
+                open={dialog.open}
+                title={dialog.title}
+                onClose={closeDialog}
+                content={dialog.content}
+                onClickNo={closeDialog}
+                onClickYes={closeDialog}
+            />
             <ShortLinksHeader />
             <Container>
                 <Header as='h1'>Dashboard</Header>
                 <Divider />
                 <Message color='blue'>
-                    <Message.Header>Welcome User!</Message.Header>
+                    <Message.Header>Welcome!</Message.Header>
                     <p>You can view dashboard statistics and manage your links.</p>
                 </Message>
+                {/*
                 <Grid columns={4} stackable>
                     <Grid.Column>
                         <Segment inverted color='blue'>
@@ -67,6 +99,7 @@ function Dashboard() {
                         </Segment>
                     </Grid.Column>
                 </Grid>
+                */}
                 <Table compact celled>
                     <Table.Header>
                         <Table.Row>
@@ -109,10 +142,10 @@ function Dashboard() {
                                                         <Button
                                                             icon
                                                             onClick={() => {
-                                                                copyLinkToClipboard(link.shortURL);
+                                                                copyLink(link.shortURL);
                                                             }}
                                                         >
-                                                            <Icon name='linkify' />
+                                                            <Icon name='eye' />
                                                         </Button>
                                                     }
                                                     content='Copy Short Link'
@@ -120,7 +153,9 @@ function Dashboard() {
                                                 />
                                                 <Popup
                                                     trigger={
-                                                        <Button icon>
+                                                        <Button
+                                                            icon
+                                                        >
                                                             <Icon name='edit' />
                                                         </Button>
                                                     }
@@ -129,7 +164,13 @@ function Dashboard() {
                                                 />
                                                 <Popup
                                                     trigger={
-                                                        <Button icon color='red'>
+                                                        <Button
+                                                            icon
+                                                            color='red'
+                                                            onClick={() => {
+                                                                deleteLink(link);
+                                                            }}
+                                                        >
                                                             <Icon name='delete' />
                                                         </Button>
                                                     }
@@ -143,6 +184,19 @@ function Dashboard() {
                             </Fragment>
                         )}
                     </Table.Body>
+                    <Table.Footer fullWidth>
+                        <Table.Row>
+                            <Table.HeaderCell colSpan="5">
+                                <Button
+                                    icon
+                                    floated='right'
+                                    labelPosition='left'
+                                >
+                                    <Icon name='plus' /> Add Link
+                                </Button>
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Footer>
                 </Table>
             </Container>
             <ShortLinksFooter />

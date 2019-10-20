@@ -114,7 +114,7 @@ function Signup(props) {
                     </Segment>
                 </Form>
                 <Message color='yellow'>
-                    Already have an account? <a href='/login'>Login</a>
+                    Already have an account? <a href='/login'>Log In</a>
                 </Message>
                 {Object.keys(errors).length > 0 && (
                     <div className="ui error message">
