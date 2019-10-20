@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
     Icon,
     Grid,
@@ -17,7 +17,7 @@ import {
     Container
 } from 'semantic-ui-react';
 
-import { GET_LINKS } from '../graphql';
+import { GET_LINKS, DELETE_LINK } from '../graphql';
 import { copyToClipboard } from '../utils';
 
 import Dialog from '../components/Dialog';
@@ -27,13 +27,16 @@ import ShortLinksFooter from '../components/Footer';
 function Dashboard() {
     const { loading, data } = useQuery(GET_LINKS);
     const [dialog, setDialog] = useState({
+        _id: '',
         title: '',
         content: '',
         open: false
     });
+    const [deleteLink] = useMutation(DELETE_LINK);
 
     function closeDialog() {
         setDialog({
+            _id: '',
             title: '',
             content: '',
             open: false
@@ -44,29 +47,44 @@ function Dashboard() {
         copyToClipboard(`${window.location.href}${shortId}`);
     }
 
-    function deleteLink(link) {
+    function clickDeleteLink(link) {
         setDialog({
+            _id: link._id,
             open: true,
             title: 'Delete Link',
             content: `Are you sure you want to delete "${link.name}"?`
         });
     }
 
+    function confirmDeleteLink(_id) {
+        deleteLink({
+            update(proxy) {
+                const data = proxy.readQuery({ query: GET_LINKS });
+                data.getLinks = data.getLinks.filter(l => l._id !== _id);
+                proxy.writeQuery({ query: GET_LINKS, data });
+            },
+            variables: { _id }
+        });
+        closeDialog();
+    }
+
     return (
         <Fragment>
             <Dialog
-                size='tiny'
-                type='decision'
+                size="tiny"
+                duration={300}
+                type="decision"
+                animation="scale"
                 open={dialog.open}
                 title={dialog.title}
                 onClose={closeDialog}
                 content={dialog.content}
                 onClickNo={closeDialog}
-                onClickYes={closeDialog}
+                onClickYes={() => { confirmDeleteLink(dialog._id); }}
             />
             <ShortLinksHeader />
             <Container>
-                <Header as='h1'>Dashboard</Header>
+                <Header as="h1">Dashboard</Header>
                 <Divider />
                 <Message floating>
                     <Message.Header>Welcome!</Message.Header>
@@ -89,29 +107,29 @@ function Dashboard() {
                 {/*
                 <Grid columns={4} stackable>
                     <Grid.Column>
-                        <Segment inverted color='blue'>
-                            <Container textAlign='center'>
+                        <Segment inverted color="blue">
+                            <Container textAlign="center">
                                 Statistic 1
                             </Container>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
-                        <Segment inverted color='green'>
-                            <Container textAlign='center'>
+                        <Segment inverted color="green">
+                            <Container textAlign="center">
                                 Statistic 2
                             </Container>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
-                        <Segment inverted color='yellow'>
-                            <Container textAlign='center'>
+                        <Segment inverted color="yellow">
+                            <Container textAlign="center">
                                 Statistic 3
                             </Container>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
-                        <Segment inverted color='red'>
-                            <Container textAlign='center'>
+                        <Segment inverted color="red">
+                            <Container textAlign="center">
                                 Statistic 4
                             </Container>
                         </Segment>
@@ -132,7 +150,7 @@ function Dashboard() {
                         {loading ? (
                             <Table.Row>
                                 <Table.Cell colSpan={5}>
-                                    <Loader active size='large' inline='centered' />
+                                    <Loader active size="large" inline="centered" />
                                 </Table.Cell>
                             </Table.Row>
                         ) : (
@@ -164,22 +182,22 @@ function Dashboard() {
                                                                 copyLink(link.shortURL);
                                                             }}
                                                         >
-                                                            <Icon name='copy' />
+                                                            <Icon name="copy" />
                                                         </Button>
                                                     }
-                                                    content='Copy Shortened Link'
+                                                    content="Copy Shortened Link"
                                                     inverted
-                                                />{' '}
+                                                />
                                                 <Popup
                                                     trigger={
                                                         <Button
                                                             icon
                                                             size="small"
                                                         >
-                                                            <Icon name='edit' />
+                                                            <Icon name="edit" />
                                                         </Button>
                                                     }
-                                                    content='Edit'
+                                                    content="Edit"
                                                     inverted
                                                 />
                                                 <Popup
@@ -189,13 +207,13 @@ function Dashboard() {
                                                             negative
                                                             size="small"
                                                             onClick={() => {
-                                                                deleteLink(link);
+                                                                clickDeleteLink(link);
                                                             }}
                                                         >
-                                                            <Icon name='delete' />
+                                                            <Icon name="delete" />
                                                         </Button>
                                                     }
-                                                    content='Delete'
+                                                    content="Delete"
                                                     inverted
                                                 />
                                             </Button.Group>

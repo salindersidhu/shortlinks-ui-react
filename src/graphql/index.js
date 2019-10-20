@@ -25,13 +25,15 @@ export const GET_LINKS = gql`
 
 export const DELETE_LINK = gql`
     mutation deleteLink(
-        $_id: ID!
+        $_id: String!
     ) {
         deleteLink(
             input: {
                 _id: $_id
             }
-        )
+        ) {
+            _id
+        }
     }
 `;
 
