@@ -23,6 +23,22 @@ export const GET_LINKS = gql`
     }
 `;
 
+export const CREATE_LINK = gql`
+    mutation createLink(
+        $url: String!
+        $name: String!
+    ) {
+        createLink(
+            input: {
+                url: $url
+                name: $name
+            }
+        ) {
+            _id
+        }
+    }
+`;
+
 export const DELETE_LINK = gql`
     mutation deleteLink(
         $_id: String!
