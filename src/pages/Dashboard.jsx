@@ -2,7 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import {
     Icon,
+    Grid,
+    Menu,
     Label,
+    Input,
     Table,
     Popup,
     Loader,
@@ -10,6 +13,7 @@ import {
     Header,
     Message,
     Divider,
+    Segment,
     Container
 } from 'semantic-ui-react';
 
@@ -64,10 +68,24 @@ function Dashboard() {
             <Container>
                 <Header as='h1'>Dashboard</Header>
                 <Divider />
-                <Message color='blue'>
+                <Message floating>
                     <Message.Header>Welcome!</Message.Header>
-                    <p>You can view dashboard statistics and manage your links.</p>
+                    <p>You can use this dashboard to view statistics and manage your links.</p>
                 </Message>
+                <Grid>
+                    <Grid.Column width={8}>
+                        <Container textAlign="left">
+                            <Button icon secondary labelPosition="left">
+                                <Icon name="plus"/> Add Link
+                            </Button>
+                        </Container>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                        <Container textAlign="right">
+                            <Input icon="search" placeholder="Search..." />
+                        </Container>
+                    </Grid.Column>
+                </Grid>
                 {/*
                 <Grid columns={4} stackable>
                     <Grid.Column>
@@ -100,7 +118,7 @@ function Dashboard() {
                     </Grid.Column>
                 </Grid>
                 */}
-                <Table compact celled>
+                <Table compact striped celled>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Status</Table.HeaderCell>
@@ -114,47 +132,49 @@ function Dashboard() {
                         {loading ? (
                             <Table.Row>
                                 <Table.Cell colSpan={5}>
-                                    <Loader active size='medium' inline='centered' />
+                                    <Loader active size='large' inline='centered' />
                                 </Table.Cell>
                             </Table.Row>
                         ) : (
                             <Fragment>
-                                {data &&
-                                    data.getLinks.map(link => (
-                                        <Table.Row key={link._id}>
-                                            <Table.Cell collapsing>
-                                                <Label color={link.active ? 'green' : 'red'}>
-                                                    {link.active ? 'Active' : 'Disabled'}
-                                                </Label>
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {link.name}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {link.longURL}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {new Date(parseInt(link.updatedAt)).toLocaleString()}
-                                            </Table.Cell>
-                                            <Table.Cell>
+                                { data && data.getLinks.length > 0 ? data.getLinks.map(link => (
+                                    <Table.Row key={link._id}>
+                                        <Table.Cell collapsing>
+                                            <Label ribbon color={link.active ? 'green' : 'red'}>
+                                                {link.active ? 'Active' : 'Disabled'}
+                                            </Label>
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            {link.name}
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            {link.longURL}
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            {new Date(parseInt(link.updatedAt)).toLocaleString()}
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            <Button.Group>
                                                 <Popup
                                                     trigger={
                                                         <Button
                                                             icon
+                                                            size="small"
                                                             onClick={() => {
                                                                 copyLink(link.shortURL);
                                                             }}
                                                         >
-                                                            <Icon name='eye' />
+                                                            <Icon name='copy' />
                                                         </Button>
                                                     }
-                                                    content='Copy Short Link'
+                                                    content='Copy Shortened Link'
                                                     inverted
-                                                />
+                                                />{' '}
                                                 <Popup
                                                     trigger={
                                                         <Button
                                                             icon
+                                                            size="small"
                                                         >
                                                             <Icon name='edit' />
                                                         </Button>
@@ -166,7 +186,8 @@ function Dashboard() {
                                                     trigger={
                                                         <Button
                                                             icon
-                                                            color='red'
+                                                            negative
+                                                            size="small"
                                                             onClick={() => {
                                                                 deleteLink(link);
                                                             }}
@@ -177,23 +198,39 @@ function Dashboard() {
                                                     content='Delete'
                                                     inverted
                                                 />
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    ))
-                                }
+                                            </Button.Group>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                )) : (
+                                    <Table.Row>
+                                        <Table.Cell colSpan="5">
+                                            <Segment placeholder>
+                                                <Header icon>
+                                                    <Icon name="unlinkify" />
+                                                    No Links found for current user.
+                                                </Header>
+                                            </Segment>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                )}
                             </Fragment>
                         )}
                     </Table.Body>
                     <Table.Footer fullWidth>
                         <Table.Row>
                             <Table.HeaderCell colSpan="5">
-                                <Button
-                                    icon
-                                    floated='right'
-                                    labelPosition='left'
-                                >
-                                    <Icon name='plus' /> Add Link
-                                </Button>
+                                <Menu floated="right" pagination>
+                                    <Menu.Item as="a" icon>
+                                        <Icon name="chevron left" />
+                                    </Menu.Item>
+                                    <Menu.Item as="a">1</Menu.Item>
+                                    <Menu.Item as="a">2</Menu.Item>
+                                    <Menu.Item as="a">3</Menu.Item>
+                                    <Menu.Item as="a">4</Menu.Item>
+                                    <Menu.Item as="a" icon>
+                                        <Icon name="chevron right" />
+                                    </Menu.Item>
+                                </Menu>
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>

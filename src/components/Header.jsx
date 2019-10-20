@@ -11,7 +11,11 @@ import { AuthContext } from '../context/auth';
 function Header() {
     const { logout } = useContext(AuthContext);
     return (
-        <Menu inverted borderless>
+        <Menu
+            inverted
+            borderless
+            style={{ borderRadius: 0 }}
+        >
             <Container>
                 <Menu.Item as='a' header>
                     <Image
