@@ -1,61 +1,21 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import {
-    Modal,
-    Button,
-    Header,
-    Transition
-} from 'semantic-ui-react';
+import React from 'react';
+import { Modal, Transition } from 'semantic-ui-react';
 
 function Dialog(props) {
     return (
-        <Transition 
+        <Transition
             visible={props.open}
             duration={props.duration}
             animation={props.animation}
         >
-            <Modal
-                size={props.size}
-                open={props.open}
-                onClose={props.onClose}
-            >
-                <Header
-                    icon={
-                        props.type === 'decision' ? 'question circle' : 'info circle'
-                    }
-                    content={props.title}   
-                />
+            <Modal size={props.size} open={props.open} onClose={props.onClose}>
+                {props.header}
                 <Modal.Content>
-                    <p>{props.content}</p>
+                    {props.content}
                 </Modal.Content>
                 <Modal.Actions>
-                    {
-                        props.type === 'decision' ? (
-                            <Fragment>
-                                <Button
-                                    negative
-                                    onClick={props.onClickNo}
-                                >
-                                    No
-                                </Button>
-                                <Button
-                                    positive
-                                    content='Yes'
-                                    icon='checkmark'
-                                    labelPosition='right'
-                                    onClick={props.onClickYes}
-                                >
-                                </Button>
-                            </Fragment>
-                        ) : (
-                            <Button 
-                                positive
-                                onClick={props.onClickOk}
-                            >
-                                Ok
-                            </Button>
-                        )
-                    }
+                    {props.actions}
                 </Modal.Actions>
             </Modal>
         </Transition>
@@ -63,16 +23,13 @@ function Dialog(props) {
 }
 
 Dialog.propTypes = {
-    onClickOk: PropTypes.func,
-    onClickNo: PropTypes.func,
-    onClickYes: PropTypes.func,
     duration: PropTypes.number,
     animation: PropTypes.string,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['decision', 'standard']),
+    header: PropTypes.object.isRequired,
+    content: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
     size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'fullscreen'])
 };
 

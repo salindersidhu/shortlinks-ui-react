@@ -26,20 +26,20 @@ import ShortLinksFooter from '../components/Footer';
 
 function Dashboard() {
     const { loading, data } = useQuery(GET_LINKS);
+    const [deleteLink] = useMutation(DELETE_LINK);
     const [dialog, setDialog] = useState({
         _id: '',
         title: '',
-        content: '',
-        open: false
+        open: false,
+        content: (<Fragment></Fragment>)
     });
-    const [deleteLink] = useMutation(DELETE_LINK);
 
     function closeDialog() {
         setDialog({
             _id: '',
             title: '',
-            content: '',
-            open: false
+            open: false,
+            content: (<Fragment></Fragment>)
         });
     }
 
@@ -52,7 +52,11 @@ function Dashboard() {
             _id: link._id,
             open: true,
             title: 'Delete Link',
-            content: `Are you sure you want to delete "${link.name}"?`
+            content: (
+                <p>
+                    Are you sure you want to delete "<b>{link.name}</b>"?
+                </p>
+            )
         });
     }
 
@@ -73,14 +77,31 @@ function Dashboard() {
             <Dialog
                 size="tiny"
                 duration={300}
-                type="decision"
                 animation="scale"
                 open={dialog.open}
-                title={dialog.title}
                 onClose={closeDialog}
+                header={(
+                    <Header icon='question circle' content={dialog.title}/>
+                )}
                 content={dialog.content}
-                onClickNo={closeDialog}
-                onClickYes={() => { confirmDeleteLink(dialog._id); }}
+                actions={(
+                    <Fragment>
+                        <Button
+                            negative
+                            onClick={closeDialog}
+                        >
+                            No
+                        </Button>
+                        <Button
+                            positive
+                            content='Yes'
+                            icon='checkmark'
+                            labelPosition='right'
+                            onClick={() => { confirmDeleteLink(dialog._id); }}
+                        >
+                        </Button>
+                    </Fragment>
+                )}
             />
             <ShortLinksHeader />
             <Container>

@@ -10,14 +10,16 @@ import {
 import { AuthContext } from '../context/auth';
 
 function Header() {
-    const { logout } = useContext(AuthContext);
     const client = useApolloClient();
+    const { logout } = useContext(AuthContext);
+
+    function clickLogout() {
+        client.resetStore();
+        logout();
+    }
+
     return (
-        <Menu
-            inverted
-            borderless
-            style={{ borderRadius: 0 }}
-        >
+        <Menu inverted borderless style={{ borderRadius: 0 }}>
             <Container>
                 <Menu.Item as='a' header>
                     <Image
@@ -34,12 +36,7 @@ function Header() {
                         className='link item'
                     >
                         <Dropdown.Menu>
-                            <Dropdown.Item
-                                onClick={() => {
-                                    client.resetStore();
-                                    logout();
-                                }}
-                            >
+                            <Dropdown.Item onClick={clickLogout}>
                                 Logout
                             </Dropdown.Item>
                         </Dropdown.Menu>
