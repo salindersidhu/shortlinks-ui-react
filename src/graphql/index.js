@@ -35,6 +35,12 @@ export const CREATE_LINK = gql`
             }
         ) {
             _id
+            name
+            active
+            longURL
+            shortURL
+            createdBy
+            updatedAt
         }
     }
 `;

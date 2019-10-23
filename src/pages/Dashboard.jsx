@@ -29,6 +29,7 @@ import ShortLinksFooter from '../components/Footer';
 function Dashboard() {
     const { loading, data } = useQuery(GET_LINKS);
     const [deleteLink] = useMutation(DELETE_LINK);
+    const [addLink] = useMutation(CREATE_LINK);
     const [dialog, setDialog] = useState({
         link: {},
         deleteActive: false,
@@ -39,20 +40,18 @@ function Dashboard() {
         url: '',
         name: ''
     });
-    const [addLink] = useMutation(CREATE_LINK, {
-        update(proxy) {
-            const data = proxy.readQuery({ query: GET_LINKS });
-            proxy.writeQuery({ query: GET_LINKS, data });
-            closeDialog();
-        },
-        onError(err) {
-            setErrors(err.graphQLErrors[0].extensions.exception.errors);
-        },
-        variables: values
-    });
 
     function createLinkCallback() {
-        addLink();
+        addLink({
+            update(_, { data: { createLink: linkData } }) {
+                data.getLinks.push(linkData);
+            },
+            onError(err) {
+                setErrors(err.graphQLErrors[0].extensions.exception.errors);
+            },
+            variables: values
+        });
+        closeDialog();
     }
 
     function closeDialog() {
@@ -136,7 +135,7 @@ function Dashboard() {
                 active={dialog.createActive}
                 onClose={closeDialog}
                 header={
-                    <Header icon="plus circle" content="Create Link"/>
+                    <Header icon="plus circle" content="Add Link"/>
                 }
                 content={
                     <Form
