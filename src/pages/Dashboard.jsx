@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
+    Form,
     Icon,
     Grid,
     Menu,
@@ -17,9 +18,10 @@ import {
     Container
 } from 'semantic-ui-react';
 
-import { GET_LINKS, DELETE_LINK } from '../graphql';
+import { CREATE_LINK, GET_LINKS, DELETE_LINK } from '../graphql';
 import { copyToClipboard } from '../utils';
 
+import { useForm } from '../hooks';
 import Dialog from '../components/Dialog';
 import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
@@ -28,18 +30,36 @@ function Dashboard() {
     const { loading, data } = useQuery(GET_LINKS);
     const [deleteLink] = useMutation(DELETE_LINK);
     const [dialog, setDialog] = useState({
-        _id: '',
-        title: '',
-        open: false,
-        content: (<Fragment></Fragment>)
+        link: {},
+        deleteActive: false,
+        createActive: false
     });
+    const [errors, setErrors] = useState({});
+    const { onChange, onSubmit, values } = useForm(createLinkCallback, {
+        url: '',
+        name: ''
+    });
+    const [addLink] = useMutation(CREATE_LINK, {
+        update(proxy) {
+            const data = proxy.readQuery({ query: GET_LINKS });
+            proxy.writeQuery({ query: GET_LINKS, data });
+            closeDialog();
+        },
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        },
+        variables: values
+    });
+
+    function createLinkCallback() {
+        addLink();
+    }
 
     function closeDialog() {
         setDialog({
-            _id: '',
-            title: '',
-            open: false,
-            content: (<Fragment></Fragment>)
+            link: {},
+            deleteActive: false,
+            createActive: false
         });
     }
 
@@ -47,16 +67,19 @@ function Dashboard() {
         copyToClipboard(`${window.location.href}${shortId}`);
     }
 
+    function clickCreateLink() {
+        setDialog({
+            link: {},
+            createActive: true,
+            deleteActive: false
+        });
+    }
+
     function clickDeleteLink(link) {
         setDialog({
-            _id: link._id,
-            open: true,
-            title: 'Delete Link',
-            content: (
-                <p>
-                    Are you sure you want to delete "<b>{link.name}</b>"?
-                </p>
-            )
+            link,
+            deleteActive: true,
+            createActive: false
         });
     }
 
@@ -78,13 +101,17 @@ function Dashboard() {
                 size="tiny"
                 duration={300}
                 animation="scale"
-                open={dialog.open}
+                active={dialog.deleteActive}
                 onClose={closeDialog}
-                header={(
-                    <Header icon='question circle' content={dialog.title}/>
-                )}
-                content={dialog.content}
-                actions={(
+                header={
+                    <Header icon="question circle" content="Delete Link"/>
+                }
+                content={
+                    <Fragment>
+                        Are you sure you want to delete "<b>{dialog.link.name}</b>"
+                    </Fragment>
+                }
+                actions={
                     <Fragment>
                         <Button
                             negative
@@ -94,14 +121,68 @@ function Dashboard() {
                         </Button>
                         <Button
                             positive
-                            content='Yes'
-                            icon='checkmark'
-                            labelPosition='right'
-                            onClick={() => { confirmDeleteLink(dialog._id); }}
-                        >
-                        </Button>
+                            content="Yes"
+                            icon="checkmark"
+                            labelPosition="right"
+                            onClick={() => { confirmDeleteLink(dialog.link._id); }}
+                        />
                     </Fragment>
-                )}
+                }
+            />
+            <Dialog
+                size="tiny"
+                duration={300}
+                animation="scale"
+                active={dialog.createActive}
+                onClose={closeDialog}
+                header={
+                    <Header icon="plus circle" content="Create Link"/>
+                }
+                content={
+                    <Form
+                        size='large'
+                        noValidate
+                    >
+                        <Form.Input
+                            fluid
+                            name="name"
+                            type="text"
+                            icon="font"
+                            onChange={onChange}
+                            value={values.name}
+                            error={errors.name ? true : false}
+                            iconPosition="left"
+                            placeholder="Link Name"
+                        />
+                        <Form.Input
+                            fluid
+                            name="url"
+                            type="text"
+                            icon="linkify"
+                            onChange={onChange}
+                            value={values.url}
+                            error={errors.url ? true : false}
+                            iconPosition="left"
+                            placeholder="Link URL"
+                        />
+                    </Form>
+                }
+                actions={
+                    <Fragment>
+                        <Button
+                            secondary
+                        >
+                            Clear
+                        </Button>
+                        <Button
+                            positive
+                            content="Submit"
+                            icon="checkmark"
+                            labelPosition="right"
+                            onClick={onSubmit}
+                        />
+                    </Fragment>
+                }
             />
             <ShortLinksHeader />
             <Container>
@@ -114,7 +195,12 @@ function Dashboard() {
                 <Grid>
                     <Grid.Column width={8}>
                         <Container textAlign="left">
-                            <Button icon secondary labelPosition="left">
+                            <Button
+                                icon
+                                secondary
+                                labelPosition="left"
+                                onClick={clickCreateLink}
+                            >
                                 <Icon name="plus"/> Add Link
                             </Button>
                         </Container>

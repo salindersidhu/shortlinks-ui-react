@@ -5,11 +5,15 @@ import { Modal, Transition } from 'semantic-ui-react';
 function Dialog(props) {
     return (
         <Transition
-            visible={props.open}
+            visible={props.active}
             duration={props.duration}
             animation={props.animation}
         >
-            <Modal size={props.size} open={props.open} onClose={props.onClose}>
+            <Modal
+                size={props.size}
+                open={props.active}
+                onClose={props.onClose}
+            >
                 {props.header}
                 <Modal.Content>
                     {props.content}
@@ -25,7 +29,7 @@ function Dialog(props) {
 Dialog.propTypes = {
     duration: PropTypes.number,
     animation: PropTypes.string,
-    open: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     header: PropTypes.object.isRequired,
     content: PropTypes.object.isRequired,
