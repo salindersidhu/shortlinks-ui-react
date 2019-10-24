@@ -51,7 +51,11 @@ function Dashboard() {
             },
             variables: values
         });
-        closeDialog();
+        if (Object.keys(errors).length < 1) {
+            values.url = '';
+            values.name = '';
+            closeDialog();
+        }
     }
 
     function closeDialog() {
@@ -146,7 +150,7 @@ function Dashboard() {
                             fluid
                             name="name"
                             type="text"
-                            icon="font"
+                            icon="linkify"
                             onChange={onChange}
                             value={values.name}
                             error={errors.name ? true : false}
@@ -157,7 +161,7 @@ function Dashboard() {
                             fluid
                             name="url"
                             type="text"
-                            icon="linkify"
+                            icon="globe"
                             onChange={onChange}
                             value={values.url}
                             error={errors.url ? true : false}
