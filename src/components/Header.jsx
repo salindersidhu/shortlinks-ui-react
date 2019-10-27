@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import {
-    Container,
-    Dropdown,
+    Icon,
+    Menu,
     Image,
-    Menu
+    Dropdown,
+    Container
 } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
@@ -30,13 +31,10 @@ function Header() {
                     Short Links
                 </Menu.Item>
                 <Menu.Menu position='right'>
-                    <Dropdown
-                        pointing
-                        text='Account'
-                        className='link item'
-                    >
+                    <Dropdown pointing text='Account' className='link item'>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={clickLogout}>
+                                <Icon name='arrow right' />
                                 Logout
                             </Dropdown.Item>
                         </Dropdown.Menu>

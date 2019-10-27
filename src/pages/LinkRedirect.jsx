@@ -7,6 +7,7 @@ import {
     Container
 } from 'semantic-ui-react';
 
+import { browserifyLink } from '../utils';
 import { useParams } from 'react-router-dom';
 import { GET_PUBLIC_LINKS } from '../graphql';
 
@@ -24,11 +25,7 @@ function LinkRedirect() {
         );
         // Check that filteredLinks returned results
         if (filteredLinks.length > 0) {
-            let longURL = filteredLinks[0].longURL;
-            // Append protocol to Long URL if it doesn't exist
-            if (!longURL.match(/^(http|https):\/\//i)) {
-                longURL = `http://${longURL}`;
-            }
+            const longURL = browserifyLink(filteredLinks[0].longURL);
             // Add Long URL to state
             if (!state.longURL) {
                 setState({ longURL });

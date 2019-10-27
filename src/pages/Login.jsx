@@ -48,20 +48,18 @@ function Login(props) {
                     <Image src='/public/logo_black.svg'/>
                     Log in to your account
                 </Header>
-                {Object.keys(errors).length > 0 && (
-                    <Message error>
-                        <List>
-                            {Object.values(errors).map((value) => (
-                                <List.Item key={value}>
-                                    <List.Icon name='warning circle'/>
-                                    <List.Content style={{ textAlign: 'left' }}>
-                                        <b>{value}</b>
-                                    </List.Content>
-                                </List.Item>
-                            ))}
-                        </List>
-                    </Message>
-                )}
+                <Message error hidden={Object.keys(errors).length === 0}>
+                    <List>
+                        {Object.values(errors).map(value => (
+                            <List.Item key={value}>
+                                <List.Icon name='warning circle'/>
+                                <List.Content style={{ textAlign: 'left' }}>
+                                    <b>{value}</b>
+                                </List.Content>
+                            </List.Item>
+                        ))}
+                    </List>
+                </Message>
                 <Form
                     noValidate
                     size='large'

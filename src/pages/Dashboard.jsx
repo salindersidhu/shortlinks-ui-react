@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
+    List,
     Form,
     Icon,
     Grid,
@@ -18,8 +19,8 @@ import {
     Container
 } from 'semantic-ui-react';
 
+import { copyToClipboard, browserifyLink } from '../utils';
 import { CREATE_LINK, GET_LINKS, DELETE_LINK } from '../graphql';
-import { copyToClipboard } from '../utils';
 
 import { useForm } from '../hooks';
 import Dialog from '../components/Dialog';
@@ -27,15 +28,15 @@ import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
 
 function Dashboard() {
-    const { loading, data } = useQuery(GET_LINKS);
-    const [deleteLink] = useMutation(DELETE_LINK);
+    const [errors, setErrors] = useState({});
     const [addLink] = useMutation(CREATE_LINK);
+    const [deleteLink] = useMutation(DELETE_LINK);
+    const { loading, data } = useQuery(GET_LINKS);
     const [dialog, setDialog] = useState({
         link: {},
         deleteActive: false,
         createActive: false
     });
-    const [errors, setErrors] = useState({});
     const { onChange, onSubmit, values } = useForm(createLinkCallback, {
         url: '',
         name: ''
@@ -46,16 +47,37 @@ function Dashboard() {
             update(_, { data: { createLink: linkData } }) {
                 data.getLinks.push(linkData);
             },
-            onError(err) {
-                setErrors(err.graphQLErrors[0].extensions.exception.errors);
-            },
             variables: values
-        });
-        if (Object.keys(errors).length < 1) {
+        }).then(() => {
             values.url = '';
             values.name = '';
             closeDialog();
-        }
+        }).catch(err => {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        });
+    }
+
+    function deleteLinkCallback(_id) {
+        deleteLink({
+            update(proxy) {
+                const data = proxy.readQuery({ query: GET_LINKS });
+                data.getLinks = data.getLinks.filter(l => l._id !== _id);
+                proxy.writeQuery({ query: GET_LINKS, data });
+            },
+            variables: { _id }
+        }).then(() => {
+            closeDialog();
+        });
+    }
+
+    function copyLink(shortId) {
+        copyToClipboard(`${window.location.href}${shortId}`);
+    }
+
+    function clearCreateLink() {
+        setErrors({});
+        values.url = '';
+        values.name = '';
     }
 
     function closeDialog() {
@@ -64,10 +86,6 @@ function Dashboard() {
             deleteActive: false,
             createActive: false
         });
-    }
-
-    function copyLink(shortId) {
-        copyToClipboard(`${window.location.href}${shortId}`);
     }
 
     function clickCreateLink() {
@@ -86,26 +104,14 @@ function Dashboard() {
         });
     }
 
-    function confirmDeleteLink(_id) {
-        deleteLink({
-            update(proxy) {
-                const data = proxy.readQuery({ query: GET_LINKS });
-                data.getLinks = data.getLinks.filter(l => l._id !== _id);
-                proxy.writeQuery({ query: GET_LINKS, data });
-            },
-            variables: { _id }
-        });
-        closeDialog();
-    }
-
     return (
         <Fragment>
             <Dialog
-                size="tiny"
+                size='tiny'
                 duration={300}
-                animation="scale"
-                active={dialog.deleteActive}
+                animation='scale'
                 onClose={closeDialog}
+                active={dialog.deleteActive}
                 header={
                     <Header icon="question circle" content="Delete Link"/>
                 }
@@ -127,53 +133,68 @@ function Dashboard() {
                             content="Yes"
                             icon="checkmark"
                             labelPosition="right"
-                            onClick={() => { confirmDeleteLink(dialog.link._id); }}
+                            onClick={() => { deleteLinkCallback(dialog.link._id); }}
                         />
                     </Fragment>
                 }
             />
-            <Dialog
-                size="tiny"
+            <Dialog 
+                size='tiny'
                 duration={300}
-                animation="scale"
-                active={dialog.createActive}
+                animation='scale'
                 onClose={closeDialog}
+                active={dialog.createActive}
                 header={
-                    <Header icon="plus circle" content="Add Link"/>
+                    <Header icon="plus circle" content="Add Link"/>  
                 }
                 content={
-                    <Form
-                        size='large'
-                        noValidate
-                    >
-                        <Form.Input
-                            fluid
-                            name="name"
-                            type="text"
-                            icon="linkify"
-                            onChange={onChange}
-                            value={values.name}
-                            error={errors.name ? true : false}
-                            iconPosition="left"
-                            placeholder="Link Name"
-                        />
-                        <Form.Input
-                            fluid
-                            name="url"
-                            type="text"
-                            icon="globe"
-                            onChange={onChange}
-                            value={values.url}
-                            error={errors.url ? true : false}
-                            iconPosition="left"
-                            placeholder="Link URL"
-                        />
-                    </Form>
+                    <Fragment>
+                        <Message
+                            error
+                            hidden={Object.keys(errors).length === 0}
+                        >
+                            <List>
+                                {Object.values(errors).map(value => (
+                                    <List.Item key={value}>
+                                        <List.Icon name='warning circle'/>
+                                        <List.Content style={{ textAlign: 'left' }}>
+                                            <b>{value}</b>
+                                        </List.Content>
+                                    </List.Item>
+                                ))}
+                            </List>
+                        </Message>
+                        <Form size='large' noValidate>
+                            <Form.Input
+                                fluid
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                icon="linkify"
+                                iconPosition="left"
+                                onChange={onChange}
+                                value={values.name}
+                                error={errors.name ? true : false}
+                            />
+                            <Form.Input
+                                fluid
+                                type="text"
+                                name="url"
+                                placeholder="URL"
+                                icon="globe"
+                                iconPosition="left"
+                                onChange={onChange}
+                                value={values.url}
+                                error={errors.url ? true : false}
+                            />
+                        </Form>
+                    </Fragment>
                 }
                 actions={
                     <Fragment>
                         <Button
                             secondary
+                            onClick={clearCreateLink}
                         >
                             Clear
                         </Button>
@@ -214,44 +235,12 @@ function Dashboard() {
                         </Container>
                     </Grid.Column>
                 </Grid>
-                {/*
-                <Grid columns={4} stackable>
-                    <Grid.Column>
-                        <Segment inverted color="blue">
-                            <Container textAlign="center">
-                                Statistic 1
-                            </Container>
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Segment inverted color="green">
-                            <Container textAlign="center">
-                                Statistic 2
-                            </Container>
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Segment inverted color="yellow">
-                            <Container textAlign="center">
-                                Statistic 3
-                            </Container>
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Segment inverted color="red">
-                            <Container textAlign="center">
-                                Statistic 4
-                            </Container>
-                        </Segment>
-                    </Grid.Column>
-                </Grid>
-                */}
                 <Table compact striped celled>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Status</Table.HeaderCell>
                             <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Original Link</Table.HeaderCell>
+                            <Table.HeaderCell>Link</Table.HeaderCell>
                             <Table.HeaderCell>Last Modified</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
@@ -276,7 +265,13 @@ function Dashboard() {
                                             {link.name}
                                         </Table.Cell>
                                         <Table.Cell>
-                                            {link.longURL}
+                                            <a
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                href={browserifyLink(link.longURL)}
+                                            >
+                                                {link.longURL}
+                                            </a>
                                         </Table.Cell>
                                         <Table.Cell>
                                             {new Date(parseInt(link.updatedAt)).toLocaleString()}
