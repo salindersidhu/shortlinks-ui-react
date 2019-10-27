@@ -86,6 +86,7 @@ function Dashboard() {
             deleteActive: false,
             createActive: false
         });
+        clearCreateLink();
     }
 
     function clickCreateLink() {
