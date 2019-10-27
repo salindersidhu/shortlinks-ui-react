@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import {
-    List,
-    Button,
     Form,
     Grid,
-    Header,
     Image,
+    Button,
+    Header,
     Message,
     Segment
 } from 'semantic-ui-react';
@@ -15,6 +14,7 @@ import {
 import { useForm } from '../hooks';
 import { REGISTER_USER } from '../graphql';
 import { AuthContext } from '../context/auth';
+import MessageList from '../components/MessageList';
 import PasswordMeter from '../components/PasswordMeter';
 
 function Signup(props) {
@@ -51,18 +51,12 @@ function Signup(props) {
                     <Image src='/public/logo_black.svg'/>
                     Create your account
                 </Header>
-                <Message error hidden={Object.keys(errors).length === 0}>
-                    <List>
-                        {Object.values(errors).map(value => (
-                            <List.Item key={value}>
-                                <List.Icon name='warning circle'/>
-                                <List.Content style={{ textAlign: 'left' }}>
-                                    <b>{value}</b>
-                                </List.Content>
-                            </List.Item>
-                        ))}
-                    </List>
-                </Message>
+                <MessageList
+                    error
+                    list={Object.values(errors)}
+                    listItemIcon='warning circle'
+                    listItemContentStyles={{ textAlign: 'left' }}
+                />
                 <Form
                     noValidate
                     size='large'

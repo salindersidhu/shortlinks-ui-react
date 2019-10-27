@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
-    List,
     Form,
     Icon,
     Grid,
@@ -26,6 +25,7 @@ import { useForm } from '../hooks';
 import Dialog from '../components/Dialog';
 import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
+import MessageList from '../components/MessageList';
 
 function Dashboard() {
     const [errors, setErrors] = useState({});
@@ -49,8 +49,6 @@ function Dashboard() {
             },
             variables: values
         }).then(() => {
-            values.url = '';
-            values.name = '';
             closeDialog();
         }).catch(err => {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -150,21 +148,12 @@ function Dashboard() {
                 }
                 content={
                     <Fragment>
-                        <Message
+                        <MessageList
                             error
-                            hidden={Object.keys(errors).length === 0}
-                        >
-                            <List>
-                                {Object.values(errors).map(value => (
-                                    <List.Item key={value}>
-                                        <List.Icon name='warning circle'/>
-                                        <List.Content style={{ textAlign: 'left' }}>
-                                            <b>{value}</b>
-                                        </List.Content>
-                                    </List.Item>
-                                ))}
-                            </List>
-                        </Message>
+                            list={Object.values(errors)}
+                            listItemIcon='warning circle'
+                            listItemContentStyles={{ textAlign: 'left' }}
+                        />
                         <Form size='large' noValidate>
                             <Form.Input
                                 fluid
