@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import {
-    Icon,
+    Grid,
     Loader,
-    Button,
     Header,
     Container
 } from 'semantic-ui-react';
@@ -41,52 +40,35 @@ function LinkRedirect() {
 
     function renderLoader() {
         return (
-            <Loader
-                active
-                size='huge'
-                inline='centered'
-            />
+            <Loader active size='massive' inline='centered'/>
         );
     }
 
-    function render404Page() {
+    function render404() {
         return (
-            <Container
-                width={16}
-                textAlign='center'
-            >
-                <Header
-                    as='h1'
-                    style={{ fontSize: '10em', marginBottom: 0 }}
-                >
+            <Container width={16} textAlign='center'>
+                <Header as='h1' style={{ fontSize: '10em', marginBottom: 0 }}>
                     404
                 </Header>
-                <Header
-                    size='huge'
-                    style={{ marginTop: 0 }}
-                >
-                    PAGE NOT FOUND!
+                <Header size='huge' style={{ marginTop: 0 }}>
+                    PAGE NOT FOUND
                 </Header>
-                <Header
-                    disabled
-                    size='medium'
-                    style={{ marginTop: 0 }}
-                >
-                    Either something went wrong or the page does not exist.
+                <Header disabled size='medium' style={{ marginTop: 0 }}>
+                    Either something went wrong or the page does not exist
                 </Header>
-                <Button
-                    icon
-                    secondary
-                    labelPosition='left'
-                >
-                    <Icon name='chevron left' /> HOME PAGE
-                </Button>
             </Container>
         );
-
     }
 
-    return loading ? renderLoader() : state.longURL ? renderLoader() : render404Page();
+    return (
+        <Grid verticalAlign='middle' style={{ height: '100vh' }}>
+            <Grid.Column>
+                {
+                    loading ? renderLoader() : state.longURL ? renderLoader() : render404()
+                }
+            </Grid.Column>
+        </Grid>
+    );
 }
 
 export default LinkRedirect;
