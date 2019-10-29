@@ -6,8 +6,8 @@ function Dialog(props) {
     return (
         <Transition
             visible={props.active}
-            duration={props.duration}
             animation={props.animation}
+            duration={props.animationDuration}
         >
             <Modal
                 size={props.size}
@@ -27,10 +27,10 @@ function Dialog(props) {
 }
 
 Dialog.propTypes = {
-    duration: PropTypes.number,
     animation: PropTypes.string,
     active: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    animationDuration: PropTypes.number,
     header: PropTypes.object.isRequired,
     content: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,

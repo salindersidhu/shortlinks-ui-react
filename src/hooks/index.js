@@ -9,5 +9,8 @@ export const useForm = (callback, initialState = {}) => {
         event.preventDefault();
         callback();
     };
-    return { values, onChange, onSubmit };
+    const reset = () => {
+        setValues(initialState);
+    };
+    return { values, onChange, onSubmit, reset };
 };
