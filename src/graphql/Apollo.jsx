@@ -7,9 +7,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
 
 const httpLink = createHttpLink({
-    /* eslint-disable */
-    uri: GRAPHQL_API
-    /* eslint-enable */
+    uri: process.env.REACT_APP_GRAPHQL_API_URI
 });
 
 const authLink = setContext(() => {
