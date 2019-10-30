@@ -36,36 +36,30 @@ function LinkRedirect() {
     }
 
     function renderLoader() {
-        return (
-            <Loader active size='massive' inline='centered'/>
-        );
+        return <Loader active size='massive' inline='centered'/>;
     }
 
     function render404() {
-        return (
-            <Container width={16} textAlign='center'>
-                <Header as='h1' style={{ fontSize: '10em', marginBottom: 0 }}>
-                    404
-                </Header>
-                <Header size='huge' style={{ marginTop: 0 }}>
-                    PAGE NOT FOUND
-                </Header>
-                <Header disabled size='medium' style={{ marginTop: 0 }}>
-                    Either something went wrong or the page does not exist
-                </Header>
-            </Container>
-        );
+        return <Container width={16} textAlign='center'>
+            <Header as='h1' style={{ fontSize: '10em', marginBottom: 0 }}>
+                404
+            </Header>
+            <Header size='huge' style={{ marginTop: 0 }}>
+                PAGE NOT FOUND
+            </Header>
+            <Header disabled size='medium' style={{ marginTop: 0 }}>
+                Either something went wrong or the page does not exist
+            </Header>
+        </Container>;
     }
 
-    return (
-        <Grid verticalAlign='middle' style={{ height: '100vh' }}>
-            <Grid.Column>
-                {
-                    loading ? renderLoader() : state.longURL ? renderLoader() : render404()
-                }
-            </Grid.Column>
-        </Grid>
-    );
+    return <Grid verticalAlign='middle' style={{ height: '100vh' }}>
+        <Grid.Column>
+            {
+                loading ? renderLoader() : state.longURL ? renderLoader() : render404()
+            }
+        </Grid.Column>
+    </Grid>;
 }
 
 export default LinkRedirect;

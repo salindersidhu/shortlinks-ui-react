@@ -6,19 +6,17 @@ import { AuthContext } from '../context/auth';
 
 function PrivateRoute({ component: Component, rootPath, ...rest }) {
     const { user } = useContext(AuthContext);
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                user ? <Component {...props} /> : <Redirect to={rootPath}/>   
-            }
-        />
-    );
+    return <Route
+        {...rest}
+        render={(props) =>
+            user ? <Component {...props} /> : <Redirect to={rootPath}/>   
+        }
+    />;
 }
 
 PrivateRoute.propTypes = {
-    rootPath: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired
+    component: PropTypes.func.isRequired,
+    rootPath: PropTypes.string.isRequired
 };
 
 export default PrivateRoute;

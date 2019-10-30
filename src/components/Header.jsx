@@ -19,30 +19,28 @@ function Header() {
         logout();
     }
 
-    return (
-        <Menu inverted borderless style={{ borderRadius: 0 }}>
-            <Container>
-                <Menu.Item as='a' header>
-                    <Image
-                        size='mini'
-                        src='/public/logo_white.svg'
-                        style={{ marginRight: '1.5em' }}
-                    />
-                    Short Links
-                </Menu.Item>
-                <Menu.Menu position='right'>
-                    <Dropdown pointing text='Account' className='link item'>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={clickLogout}>
-                                <Icon name='arrow right' />
-                                Logout
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Menu.Menu>
-            </Container>
-        </Menu>
-    );
+    return <Menu inverted borderless style={{ borderRadius: 0 }}>
+        <Container>
+            <Menu.Item as='a' header>
+                <Image
+                    size='mini'
+                    src='/public/logo_white.svg'
+                    style={{ marginRight: '1.5em' }}
+                />
+                Short Links
+            </Menu.Item>
+            <Menu.Menu position='right'>
+                <Dropdown pointing text='Account' className='link item'>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={clickLogout}>
+                            <Icon name='arrow right' />
+                            Logout
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </Menu.Menu>
+        </Container>
+    </Menu>;
 }
 
 export default Header;

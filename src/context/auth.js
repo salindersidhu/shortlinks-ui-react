@@ -1,8 +1,6 @@
 import React, { useReducer, createContext } from 'react';
 
-const initialState = {
-    user: null
-};
+const initialState = { user: null };
 
 if (localStorage.getItem('token')) {
     initialState.user = localStorage.getItem('token');
@@ -49,12 +47,10 @@ function AuthProvider(props) {
         dispatch({ type: 'LOGOUT' });
     }
 
-    return (
-        <AuthContext.Provider
-            value={{ user: state.user, login, logout }}
-            {...props}
-        />
-    );
+    return <AuthContext.Provider
+        value={{ user: state.user, login, logout }}
+        {...props}
+    />;
 }
 
 export { AuthContext, AuthProvider };

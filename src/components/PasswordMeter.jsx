@@ -8,21 +8,21 @@ function scoreToColor(value) {
         return 'red';
     } else if (value <= 40) {
         return 'orange';
-    } else if (value <= 80) {
+    } else if (value <= 60) {
         return 'yellow';
+    } else if (value <= 80) {
+        return 'olive';
     }
-    return 'olive';
+    return 'green';
 }
 
 function PasswordMeter({ value }) {
     const score = value.length > 0 ? (zxcvbn(value).score + 1) * 20 : 0;
-    return (
-        <Progress
-            percent={score}
-            label='Password Strength'
-            color={scoreToColor(score)}
-        />
-    );
+    return <Progress
+        percent={score}
+        label='Password Strength'
+        color={scoreToColor(score)}
+    />;
 }
 
 PasswordMeter.propTypes = {

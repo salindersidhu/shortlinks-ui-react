@@ -4,7 +4,7 @@
   "description": "A link shortner app built using Node and React",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --hot --debug --output-pathinfo --port 3000 --config ./config/webpack.dev.js",
+    "start": "webpack-dev-server --open --hot --debug --output-pathinfo --port 3000 --host 0.0.0.0 --config ./config/webpack.dev.js",
     "build": "webpack-cli --config ./config/webpack.prod.js",
     "build:clean": "rm -rf build",
     "test": "echo \"Error: no test specified\" && exit 1"

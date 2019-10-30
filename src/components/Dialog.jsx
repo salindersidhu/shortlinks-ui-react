@@ -3,27 +3,21 @@ import React from 'react';
 import { Modal, Transition } from 'semantic-ui-react';
 
 function Dialog(props) {
-    return (
-        <Transition
-            visible={props.active}
-            animation={props.animation}
-            duration={props.animationDuration}
-        >
-            <Modal
-                size={props.size}
-                open={props.active}
-                onClose={props.onClose}
-            >
-                {props.header}
-                <Modal.Content>
-                    {props.content}
-                </Modal.Content>
-                <Modal.Actions>
-                    {props.actions}
-                </Modal.Actions>
-            </Modal>
-        </Transition>
-    );
+    return <Transition
+        visible={props.active}
+        animation={props.animation}
+        duration={props.animationDuration}
+    >
+        <Modal size={props.size} open={props.active} onClose={props.onClose}>
+            {props.header}
+            <Modal.Content>
+                {props.content}
+            </Modal.Content>
+            <Modal.Actions>
+                {props.actions}
+            </Modal.Actions>
+        </Modal>
+    </Transition>;
 }
 
 Dialog.propTypes = {

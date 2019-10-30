@@ -27,11 +27,7 @@ const client = new ApolloClient({
 });
 
 function Apollo(props) {
-    return (
-        <ApolloProvider client={client}>
-            {props.children}
-        </ApolloProvider>
-    );
+    return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
 }
 
 Apollo.propTypes = {

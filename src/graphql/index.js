@@ -45,6 +45,32 @@ export const CREATE_LINK = gql`
     }
 `;
 
+export const EDIT_LINK = gql`
+    mutation editLink(
+        $_id: String!
+        $url: String!
+        $name: String!
+        $active: Boolean!
+    ) {
+        editLink(
+            input: {
+                _id: $_id
+                url: $url
+                name: $name
+                active: $active
+            }
+        ) {
+            _id
+            name
+            active
+            longURL
+            shortURL
+            createdBy
+            updatedAt
+        }
+    }
+`;
+
 export const DELETE_LINK = gql`
     mutation deleteLink(
         $_id: String!

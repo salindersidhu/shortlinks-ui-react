@@ -14,39 +14,37 @@ import Dashboard from './pages/Dashboard';
 import LinkRedirect from './pages/LinkRedirect';
 
 function App() {
-    return (
-        <Apollo>
-            <AuthProvider>
-                <Router>
-                    <Switch>
-                        <PrivateRoute
-                            exact
-                            path='/'
-                            rootPath='/login'
-                            component={Dashboard}
-                        />
-                        <PublicRoute
-                            exact
-                            path='/login'
-                            authPath='/'
-                            component={Login}
-                        />
-                        <PublicRoute
-                            exact
-                            path='/signup'
-                            authPath='/'
-                            component={Signup}
-                        />
-                        <Route
-                            exact
-                            path='/:shortURL'
-                            component={LinkRedirect}
-                        />
-                    </Switch>
-                </Router>
-            </AuthProvider>
-        </Apollo>
-    );
+    return <Apollo>
+        <AuthProvider>
+            <Router>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path='/'
+                        rootPath='/login'
+                        component={Dashboard}
+                    />
+                    <PublicRoute
+                        exact
+                        path='/login'
+                        authPath='/'
+                        component={Login}
+                    />
+                    <PublicRoute
+                        exact
+                        path='/signup'
+                        authPath='/'
+                        component={Signup}
+                    />
+                    <Route
+                        exact
+                        path='/:shortURL'
+                        component={LinkRedirect}
+                    />
+                </Switch>
+            </Router>
+        </AuthProvider>
+    </Apollo>;
 }
 
 export default App;

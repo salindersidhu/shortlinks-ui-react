@@ -6,19 +6,17 @@ import { AuthContext } from '../context/auth';
 
 function PublicRoute({ component: Component, authPath, ...rest }) {
     const { user } = useContext(AuthContext);
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                user ? <Redirect to={authPath} /> : <Component {...props} />
-            }
-        />
-    );
+    return <Route
+        {...rest}
+        render={(props) =>
+            user ? <Redirect to={authPath} /> : <Component {...props} />
+        }
+    />;
 }
 
 PublicRoute.propTypes = {
-    authPath: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired
+    component: PropTypes.func.isRequired,
+    authPath: PropTypes.string.isRequired
 };
 
 export default PublicRoute;
