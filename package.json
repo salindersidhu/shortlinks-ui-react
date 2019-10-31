@@ -34,6 +34,9 @@
   },
   "homepage": "https://github.com/salindersidhu/shortlinks-ui-react#readme",
   "dependencies": {
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",

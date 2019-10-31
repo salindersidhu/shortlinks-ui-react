@@ -1,0 +1,23 @@
+{
+    "extends": ["react-app"],
+    "rules": {
+        "indent": 2,
+        "curly": "warn",
+        "no-console": 1,
+        "prefer-const": "error",
+        "space-before-blocks": "error",
+        "react/no-unescaped-entities": "off",
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ]
+    }
+}
