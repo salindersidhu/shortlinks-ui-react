@@ -13,7 +13,7 @@ function Footer() {
         style={{ margin: '5em 0em 0em', padding: '5em 0em' }}
     >
         <Container textAlign='center'>
-            <Image centered size='mini' src='/logo_white.svg' />
+            <Image centered size='mini' src='/images/logo_white.svg' />
             <List horizontal inverted divided link size='small'>
                 <List.Item as='a' href='#'>
                     Site Map

@@ -24,7 +24,7 @@ function Header() {
             <Menu.Item as='a' header>
                 <Image
                     size='mini'
-                    src='/logo_white.svg'
+                    src='/images/logo_white.svg'
                     style={{ marginRight: '1.5em' }}
                 />
                 Short Links

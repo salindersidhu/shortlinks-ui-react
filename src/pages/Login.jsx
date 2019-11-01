@@ -32,8 +32,12 @@ function Login(props) {
                 props.history.push('/');
             },
             variables: values
-        }).catch(err => {
-            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        }).catch(({ graphQLErrors, networkError }) => {
+            if (graphQLErrors.length > 0 && !networkError) {
+                setErrors(graphQLErrors[0].extensions.exception.errors);
+            } else {
+                setErrors({ general: 'Cannot communicate with API server' });
+            }
         });
     }
 
@@ -44,7 +48,7 @@ function Login(props) {
     >
         <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h1' color='black' textAlign='center'>
-                <Image src='/logo_black.svg'/>
+                <Image src='/images/logo_black.svg'/>
                 Log in to your account
             </Header>
             <MessageList

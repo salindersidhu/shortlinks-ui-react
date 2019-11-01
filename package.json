@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/salindersidhu/shortlinks-ui-react/issues"
   },
-  "homepage": "https://github.com/salindersidhu/shortlinks-ui-react#readme",
+  "homepage": "",
   "dependencies": {
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",

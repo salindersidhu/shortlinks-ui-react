@@ -14,9 +14,9 @@ import { GET_PUBLIC_LINKS } from '../graphql';
 function LinkRedirect() {
     const { shortURL } = useParams();
     const [ state, setState ] = useState({});
-    const { loading, data } = useQuery(GET_PUBLIC_LINKS);
+    const { loading, error, data } = useQuery(GET_PUBLIC_LINKS);
 
-    if (!loading) {
+    if (!loading && !error) {
         // Extract all links from data
         const { getPublicLinks: links } = data;
         // Filter out an active link by short URL 

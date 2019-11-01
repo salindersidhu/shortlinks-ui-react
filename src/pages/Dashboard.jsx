@@ -358,7 +358,7 @@ function Dashboard() {
 
     function renderDataTable() {
         return <Fragment>
-            <Message attached='top'>
+            <Message attached='top' style={{ padding: '0 1.5em' }}>
                 {renderDataTableAttached()}
             </Message>
             <Table compact striped attached stackable>
