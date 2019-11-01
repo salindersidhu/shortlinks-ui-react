@@ -53,13 +53,18 @@ function LinkRedirect() {
         </Container>;
     }
 
-    return <Grid verticalAlign='middle' style={{ height: '100vh' }}>
-        <Grid.Column>
-            {
-                loading ? renderLoader() : state.longURL ? renderLoader() : render404()
-            }
-        </Grid.Column>
-    </Grid>;
+    return <Container>
+        <Grid
+            verticalAlign='middle'
+            style={{ height: '100vh' }}
+        >
+            <Grid.Column>
+                {
+                    loading ? renderLoader() : state.longURL ? renderLoader() : render404()
+                }
+            </Grid.Column>
+        </Grid>
+    </Container>;
 }
 
 export default LinkRedirect;

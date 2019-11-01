@@ -3,9 +3,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
     Form,
     Icon,
-    Grid,
     Label,
-    Input,
     Table,
     Popup,
     Loader,
@@ -199,25 +197,16 @@ function Dashboard() {
     }
 
     function renderDataTableAttached() {
-        return <Grid>
-            <Grid.Column width={8}>
-                <Container textAlign='left'>
-                    <Button
-                        icon
-                        secondary
-                        labelPosition='left'
-                        onClick={clickCreateLink}
-                    >
-                        <Icon name='plus'/> Add Link
-                    </Button>
-                </Container>
-            </Grid.Column>
-            <Grid.Column width={8}>
-                <Container textAlign='right'>
-                    <Input icon='search' placeholder='Search...' />
-                </Container>
-            </Grid.Column>
-        </Grid>;
+        return <Fragment>
+            <Button
+                icon
+                secondary
+                labelPosition='left'
+                onClick={clickCreateLink}
+            >
+                <Icon name='plus'/> Add Link
+            </Button>
+        </Fragment>;
     }
 
     function renderDataTableHeader() {
@@ -358,10 +347,10 @@ function Dashboard() {
 
     function renderDataTable() {
         return <Fragment>
-            <Message attached='top' style={{ padding: '0 1.5em' }}>
+            <Message attached='top'>
                 {renderDataTableAttached()}
             </Message>
-            <Table compact striped attached stackable>
+            <Table compact striped attached>
                 <Table.Header>
                     {renderDataTableHeader()}
                 </Table.Header>
