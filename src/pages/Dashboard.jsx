@@ -12,8 +12,9 @@ import {
     Message,
     Divider,
     Segment,
+    Checkbox,
     Container,
-    Pagination
+    Pagination,
 } from 'semantic-ui-react';
 
 import { copyToClipboard, browserifyLink } from '../utils';
@@ -32,6 +33,7 @@ function Dashboard() {
     const { loading, data } = useQuery(GET_LINKS);
     const [dialog, setDialog] = useState({
         link: {},
+        editActive: false,
         createActive: false,
         deleteActive: false
     });
@@ -79,32 +81,119 @@ function Dashboard() {
         clearCreateLinkForm();
         setDialog({
             link: {},
+            editActive: false,
             deleteActive: false,
             createActive: false
         });
     }
 
+    function clickEditLink(link) {
+        values.name = link.name;
+        values.url = link.longURL;
+        values.active = link.active;
+        setDialog({
+            ...dialog,
+            link,
+            editActive: true
+        });
+    }
+
     function clickCreateLink() {
         setDialog({
+            ...dialog,
             link: {},
-            createActive: true,
-            deleteActive: false
+            createActive: true
         });
     }
 
     function clickDeleteLink(link) {
         setDialog({
+            ...dialog,
             link,
-            deleteActive: true,
-            createActive: false
+            deleteActive: true
         });
+    }
+
+    function renderLinkEditDialog() {
+        return <Dialog
+            size='tiny'
+            animation='fade down'
+            animationDuration={500}
+            active={dialog.editActive}
+            onClose={closeDialog}
+            header={
+                <Header icon='plus circle' content='Edit Link' />
+            }
+            content={
+                <Fragment>
+                    <MessageList
+                        error
+                        list={Object.values(errors)}
+                        listItemIcon='warning circle'
+                        listItemContentStyles={{ textAlign: 'left' }}
+                    />
+                    <Form size='large' noValidate>
+                        <Segment size='large'>
+                            <Checkbox 
+                                toggle
+                                name="active"
+                                onChange={onChange}
+                                label={
+                                    `Link ${values.active ? 'Active' : 'Disabled'}`
+                                }
+                                onClick={() => {
+                                    values.active = !values.active;
+                                }}
+                                checked={values.active}
+                            />
+                        </Segment>
+                        <Form.Input
+                            fluid
+                            type='text'
+                            name='name'
+                            placeholder='Name'
+                            icon='linkify'
+                            iconPosition='left'
+                            onChange={onChange}
+                            value={values.name}
+                            error={errors.name ? true : false}
+                        />
+                        <Form.Input
+                            fluid
+                            type='text'
+                            name='url'
+                            placeholder='URL'
+                            icon='globe'
+                            iconPosition='left'
+                            onChange={onChange}
+                            value={values.url}
+                            error={errors.url ? true : false}
+                        />
+                    </Form>
+                </Fragment>
+            }
+            actions={
+                <Fragment>
+                    <Button
+                        secondary
+                        content='Reset'
+                    />
+                    <Button
+                        positive
+                        content='Update'
+                        icon='checkmark'
+                        labelPosition='right'
+                    />
+                </Fragment>
+            }
+        />;
     }
 
     function renderLinkDeleteDialog() {
         return <Dialog
             size='tiny'
-            animation='scale'
-            animationDuration={300}
+            animation='fade down'
+            animationDuration={500}
             active={dialog.deleteActive}
             onClose={closeDialog}
             header={
@@ -117,7 +206,11 @@ function Dashboard() {
             }
             actions={
                 <Fragment>
-                    <Button negative onClick={closeDialog}>No</Button>
+                    <Button
+                        negative
+                        content='No'
+                        onClick={closeDialog}
+                    />
                     <Button
                         positive
                         content='Yes'
@@ -135,8 +228,8 @@ function Dashboard() {
     function renderLinkCreateDialog() {
         return <Dialog
             size='tiny'
-            animation='scale'
-            animationDuration={300}
+            animation='fade down'
+            animationDuration={500}
             active={dialog.createActive}
             onClose={closeDialog}
             header={
@@ -180,10 +273,9 @@ function Dashboard() {
                 <Fragment>
                     <Button
                         secondary
+                        content='Clear'
                         onClick={clearCreateLinkForm}
-                    >
-                        Clear
-                    </Button>
+                    />
                     <Button
                         positive
                         content='Submit'
@@ -318,7 +410,13 @@ function Dashboard() {
                             inverted
                             content='Edit'
                             trigger={
-                                <Button icon size='small'>
+                                <Button
+                                    icon
+                                    size='small'
+                                    onClick={() => {
+                                        clickEditLink(link);
+                                    }}
+                                >
                                     <Icon name='edit' />
                                 </Button>
                             }
@@ -367,6 +465,7 @@ function Dashboard() {
     return (
         <Fragment>
             <ShortLinksHeader />
+            {renderLinkEditDialog()}
             {renderLinkCreateDialog()}
             {renderLinkDeleteDialog()}
             <Container>

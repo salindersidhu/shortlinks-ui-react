@@ -52,8 +52,17 @@ function Signup(props) {
             style={{ height: '100vh' }}
         >
             <Grid.Column style={{ maxWidth: 450 }}>
-                <Header as='h1' color='black' textAlign='center'>
-                    <Image src='/images/logo_black.svg'/>
+                <Image
+                    size='tiny'
+                    verticalAlign='middle'
+                    src='/images/logo_black.svg'
+                />
+                <Header
+                    as='h1'
+                    color='black'
+                    textAlign='center'
+                    style={{ marginTop: 0 }}
+                >
                     Create your account
                 </Header>
                 <MessageList
