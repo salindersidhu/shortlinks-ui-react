@@ -55,21 +55,38 @@ Shortlinks UI React welcomes contributions from anyone and everyone. Please see 
 ## Structure
     .
     ├── ...
-    ├── graphql                     # GraphQL source data
-    │    ├── resolvers              # GraphQL resolvers
-    │    │   ├── index.js           # Root resolver
+    ├── src                         # Main source
+    │    ├── components             # Custom components
     │    │   └── ...
-    │    ├── typedefs               # GraphQL typedefs
-    │    │   ├── index.js           # Root typedef
+    │    ├── context                # Custom context
     │    │   └── ...
+    │    ├── graphql                # GraphQL API Integration
+    │    │   ├── Apollo.jsx         # Custom Apollo Provider
+    │    │   ├── index.js           # GraphQL queries
+    │    │   └── ...
+    │    ├── hooks                  # Custom hooks
+    │    │   ├── index.js           # Hook source file
+    │    │   └── ...
+    │    ├── pages                  # Application pages
+    │    │   └── ...
+    │    ├── utils                  # Utils
+    │    │   ├── index.js           # Utils source file
+    │    │   └── ...
+    │    ├── App.css                # Application styles
+    │    ├── App.jsx                # Application source
+    │    ├── index.js               # Main source file
+    │    ├── serviceWorker          # PWA service worker file
     │    └── ...
-    ├── models                      # DB models
-    │   └── ...
-    ├── utils                       # Utility functions
-    │   ├── auth-token.js           # Authentication token utils
-    │   ├── validators.js           # Server side form input validators
+    ├── public                      # Web app public folder
+    │   ├── images                  # Web app images
+    │   │   └── ...
+    │   ├── index.html              # Web app source file
+    │   ├── favicon.ico             # Web app icon
+    │   ├── manifest.json           # Web app manifest file
+    │   ├── robots.txt              # PWA robots file
     │   └── ...
     ├── index.js                    # Main server logic
-    ├── config.js                   # Server config
-    ├── .eslintrc.json              # Eslint file
+    ├── .env.development.js         # Development build config
+    ├── .env.production.js          # Production build config
+    ├── .eslintrc                   # Eslint file
     └── ...
