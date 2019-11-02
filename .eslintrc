@@ -3,7 +3,7 @@
     "rules": {
         "indent": 2,
         "curly": "warn",
-        "no-console": 1,
+        "no-console": 0,
         "prefer-const": "error",
         "space-before-blocks": "error",
         "react/no-unescaped-entities": "off",
