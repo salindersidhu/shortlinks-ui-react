@@ -46,7 +46,6 @@ function Login(props) {
         <Grid
             textAlign='center'
             verticalAlign='middle'
-            stackable
             style={{ height: '100vh' }}
         >
             <Grid.Column style={{ maxWidth: 450 }}>

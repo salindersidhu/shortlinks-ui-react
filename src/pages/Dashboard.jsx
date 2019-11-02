@@ -28,7 +28,7 @@ import MessageList from '../components/MessageList';
 
 function Dashboard() {
     const [errors, setErrors] = useState({});
-    const [addLink] = useMutation(CREATE_LINK);
+    const [createLink] = useMutation(CREATE_LINK);
     const [deleteLink] = useMutation(DELETE_LINK);
     const { loading, data } = useQuery(GET_LINKS);
     const [dialog, setDialog] = useState({
@@ -43,7 +43,7 @@ function Dashboard() {
     });
 
     function createLinkCallback() {
-        addLink({
+        createLink({
             update(_, { data: { createLink: linkData } }) {
                 data.getLinks.push(linkData);
             },
@@ -87,10 +87,15 @@ function Dashboard() {
         });
     }
 
-    function clickEditLink(link) {
+    function clickEditLinkReset(link) {
         values.name = link.name;
         values.url = link.longURL;
         values.active = link.active;
+        setErrors({});
+    }
+
+    function clickEditLink(link) {
+        clickEditLinkReset(link);
         setDialog({
             ...dialog,
             link,
@@ -177,6 +182,7 @@ function Dashboard() {
                     <Button
                         secondary
                         content='Reset'
+                        onClick={() => { clickEditLinkReset(dialog.link); }}
                     />
                     <Button
                         positive
