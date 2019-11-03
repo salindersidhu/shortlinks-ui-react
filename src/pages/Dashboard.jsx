@@ -21,10 +21,10 @@ import { copyToClipboard, browserifyLink } from '../utils';
 import { CREATE_LINK, GET_LINKS, DELETE_LINK } from '../graphql';
 
 import { useForm } from '../hooks';
-import Dialog from '../components/Dialog';
 import ShortLinksHeader from '../components/Header';
 import ShortLinksFooter from '../components/Footer';
 import MessageList from '../components/MessageList';
+import AnimatedModal from '../components/AnimatedModal';
 
 function Dashboard() {
     const [errors, setErrors] = useState({});
@@ -78,9 +78,8 @@ function Dashboard() {
     }
 
     function closeDialog() {
-        clearCreateLinkForm();
         setDialog({
-            link: {},
+            ...dialog,
             editActive: false,
             deleteActive: false,
             createActive: false
@@ -120,11 +119,10 @@ function Dashboard() {
     }
 
     function renderLinkEditDialog() {
-        return <Dialog
+        return <AnimatedModal
             size='tiny'
             animation='fade down'
-            animationDuration={500}
-            active={dialog.editActive}
+            open={dialog.editActive}
             onClose={closeDialog}
             header={
                 <Header icon='plus circle' content='Edit Link' />
@@ -196,11 +194,10 @@ function Dashboard() {
     }
 
     function renderLinkDeleteDialog() {
-        return <Dialog
+        return <AnimatedModal
             size='tiny'
             animation='fade down'
-            animationDuration={500}
-            active={dialog.deleteActive}
+            open={dialog.deleteActive}
             onClose={closeDialog}
             header={
                 <Header icon='question circle' content='Delete Link' />
@@ -232,11 +229,10 @@ function Dashboard() {
     }
 
     function renderLinkCreateDialog() {
-        return <Dialog
+        return <AnimatedModal
             size='tiny'
             animation='fade down'
-            animationDuration={500}
-            active={dialog.createActive}
+            open={dialog.createActive}
             onClose={closeDialog}
             header={
                 <Header icon='plus circle' content='Add Link'/>  
