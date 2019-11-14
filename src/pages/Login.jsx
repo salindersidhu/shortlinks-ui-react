@@ -37,7 +37,7 @@ function Login(props) {
             if (graphQLErrors.length > 0 && !networkError) {
                 setErrors(graphQLErrors[0].extensions.exception.errors);
             } else {
-                setErrors({ general: 'Cannot communicate with API server' });
+                setErrors({ general: 'Cannot connect with server' });
             }
         });
     }
