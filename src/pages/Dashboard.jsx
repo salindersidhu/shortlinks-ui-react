@@ -142,7 +142,7 @@ function Dashboard() {
                                 name="active"
                                 onChange={onChange}
                                 label={
-                                    `Link ${values.active ? 'Active' : 'Disabled'}`
+                                    `Link ${values.active ? 'Enabled' : 'Disabled'}`
                                 }
                                 onClick={() => {
                                     values.active = !values.active;
@@ -308,7 +308,7 @@ function Dashboard() {
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Link</Table.HeaderCell>
-            <Table.HeaderCell>Last Modified</Table.HeaderCell>
+            <Table.HeaderCell>Updated</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
         </Table.Row>;
     }
@@ -370,10 +370,10 @@ function Dashboard() {
 
     function renderDataTableBody() {
         return loading ? renderDataTableLoading() : data && data.getLinks.length > 0 ? data.getLinks.map(link =>
-            <Table.Row key={link._id}>
+            <Table.Row key={link._id} negative={!link.active}>
                 <Table.Cell collapsing>
-                    <Label ribbon color={link.active ? 'green' : 'red'}>
-                        {link.active ? 'Active' : 'Disabled'}
+                    <Label color={link.active ? 'green' : 'red'}>
+                        {link.active ? 'Enabled' : 'Disabled'}
                     </Label>
                 </Table.Cell>
                 <Table.Cell>
@@ -450,7 +450,7 @@ function Dashboard() {
             <Message attached='top'>
                 {renderDataTableAttached()}
             </Message>
-            <Table compact striped attached>
+            <Table compact attached celled>
                 <Table.Header>
                     {renderDataTableHeader()}
                 </Table.Header>
