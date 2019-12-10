@@ -13,12 +13,11 @@ import {
     Divider,
     Segment,
     Checkbox,
-    Container,
-    Pagination,
+    Container
 } from 'semantic-ui-react';
 
 import { copyToClipboard, browserifyLink } from '../utils';
-import { CREATE_LINK, GET_LINKS, DELETE_LINK } from '../graphql';
+import { CREATE_LINK, GET_LINKS, EDIT_LINK, DELETE_LINK } from '../graphql';
 
 import { useForm } from '../hooks';
 import ShortLinksHeader from '../components/Header';
@@ -29,6 +28,7 @@ import AnimatedModal from '../components/AnimatedModal';
 function Dashboard() {
     const [errors, setErrors] = useState({});
     const [createLink] = useMutation(CREATE_LINK);
+    const [editLink] = useMutation(EDIT_LINK);
     const [deleteLink] = useMutation(DELETE_LINK);
     const { loading, data } = useQuery(GET_LINKS);
     const [dialog, setDialog] = useState({
@@ -55,6 +55,19 @@ function Dashboard() {
         });
     }
 
+    function editLinkCallback(_id) {
+        editLink({
+            update(_, { data: { editLink: linkData } }) {
+                data.getLinks.push(linkData);
+            },
+            variables: { ...values, _id }
+        }).then(() => {
+            closeDialog();
+        }).catch(err => {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        });
+    }
+
     function deleteLinkCallback(_id) {
         deleteLink({
             update(proxy) {
@@ -69,7 +82,7 @@ function Dashboard() {
     }
 
     function copyLink(shortId) {
-        copyToClipboard(`${window.location.href}${shortId}`);
+        copyToClipboard(`${window.origin}/${shortId}`);
     }
 
     function clearCreateLinkForm() {
@@ -103,6 +116,7 @@ function Dashboard() {
     }
 
     function clickCreateLink() {
+        clearCreateLinkForm();
         setDialog({
             ...dialog,
             link: {},
@@ -155,7 +169,7 @@ function Dashboard() {
                             type='text'
                             name='name'
                             placeholder='Name'
-                            icon='linkify'
+                            icon='write'
                             iconPosition='left'
                             onChange={onChange}
                             value={values.name}
@@ -166,7 +180,7 @@ function Dashboard() {
                             type='text'
                             name='url'
                             placeholder='URL'
-                            icon='globe'
+                            icon='linkify'
                             iconPosition='left'
                             onChange={onChange}
                             value={values.url}
@@ -187,6 +201,9 @@ function Dashboard() {
                         content='Update'
                         icon='checkmark'
                         labelPosition='right'
+                        onClick={() => {
+                            editLinkCallback(dialog.link._id);
+                        }}
                     />
                 </Fragment>
             }
@@ -251,7 +268,7 @@ function Dashboard() {
                             type='text'
                             name='name'
                             placeholder='Name'
-                            icon='linkify'
+                            icon='write'
                             iconPosition='left'
                             onChange={onChange}
                             value={values.name}
@@ -262,7 +279,7 @@ function Dashboard() {
                             type='text'
                             name='url'
                             placeholder='URL'
-                            icon='globe'
+                            icon='linkify'
                             iconPosition='left'
                             onChange={onChange}
                             value={values.url}
@@ -292,14 +309,19 @@ function Dashboard() {
 
     function renderDataTableAttached() {
         return <Fragment>
-            <Button
-                icon
-                secondary
-                labelPosition='left'
-                onClick={clickCreateLink}
-            >
-                <Icon name='plus'/> Add Link
-            </Button>
+            <Popup
+                inverted
+                content='Add Link'
+                trigger={
+                    <Button
+                        icon
+                        size='small'
+                        onClick={clickCreateLink}
+                    >
+                        <Icon name='plus'/>
+                    </Button>
+                }
+            />
         </Fragment>;
     }
 
@@ -310,38 +332,6 @@ function Dashboard() {
             <Table.HeaderCell>Link</Table.HeaderCell>
             <Table.HeaderCell>Updated</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
-        </Table.Row>;
-    }
-
-    function renderDataTableFooter() {
-        return <Table.Row>
-            <Table.HeaderCell colSpan='5' textAlign='right'>
-                <Pagination
-                    size='small'
-                    totalPages={3}
-                    defaultActivePage={1}
-                    firstItem={{
-                        icon: true,
-                        content: <Icon name='angle double left' />
-                    }}
-                    lastItem={{
-                        icon: true,
-                        content: <Icon name='angle double right' />
-                    }}
-                    prevItem={{
-                        icon: true,
-                        content: <Icon name='angle left' />
-                    }}
-                    nextItem={{
-                        icon: true,
-                        content: <Icon name='angle right' />
-                    }}
-                    ellipsisItem={{
-                        icon: true,
-                        content: <Icon name='ellipsis horizontal' />
-                    }}
-                />
-            </Table.HeaderCell>
         </Table.Row>;
     }
 
@@ -395,7 +385,7 @@ function Dashboard() {
                     <Button.Group>
                         <Popup
                             inverted
-                            content='Copy Shortened Link'
+                            content='Copy'
                             trigger={
                                 <Button
                                     icon
@@ -404,7 +394,7 @@ function Dashboard() {
                                         copyLink(link.shortURL);
                                     }}
                                 >
-                                    <Icon name='copy' />
+                                    <Icon name='linkify' />
                                 </Button>
                             }
                         />
@@ -457,9 +447,6 @@ function Dashboard() {
                 <Table.Body>
                     {renderDataTableBody()}
                 </Table.Body>
-                <Table.Footer fullWidth>
-                    {renderDataTableFooter()}
-                </Table.Footer>
             </Table>
         </Fragment>;
     }
