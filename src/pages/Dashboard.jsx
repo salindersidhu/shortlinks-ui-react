@@ -139,7 +139,7 @@ function Dashboard() {
             open={dialog.editActive}
             onClose={closeDialog}
             header={
-                <Header icon='plus circle' content='Edit Link' />
+                <Header icon='edit' content='Edit Link' />
             }
             content={
                 <Fragment>
@@ -177,14 +177,12 @@ function Dashboard() {
                         />
                         <Form.Input
                             fluid
+                            disabled
                             type='text'
-                            name='url'
-                            placeholder='URL'
                             icon='linkify'
+                            placeholder='URL'
                             iconPosition='left'
-                            onChange={onChange}
                             value={values.url}
-                            error={errors.url ? true : false}
                         />
                     </Form>
                 </Fragment>
@@ -252,7 +250,7 @@ function Dashboard() {
             open={dialog.createActive}
             onClose={closeDialog}
             header={
-                <Header icon='plus circle' content='Add Link'/>  
+                <Header icon='edit' content='Add Link'/>  
             }
             content={
                 <Fragment>

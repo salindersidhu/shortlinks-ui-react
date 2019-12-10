@@ -33,8 +33,8 @@ function Header() {
                 <Dropdown pointing text='Account' className='link item'>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={clickLogout}>
-                            <Icon name='arrow right' />
-                            Logout
+                            <Icon name='sign-out' />
+                            Sign Out
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
