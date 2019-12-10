@@ -20,10 +20,8 @@ import { copyToClipboard, browserifyLink } from '../utils';
 import { CREATE_LINK, GET_LINKS, EDIT_LINK, DELETE_LINK } from '../graphql';
 
 import { useForm } from '../hooks';
-import ShortLinksHeader from '../components/Header';
-import ShortLinksFooter from '../components/Footer';
+import { Dialog, PageHeader, PageFooter } from '../components';
 import MessageList from '../components/MessageList';
-import AnimatedModal from '../components/AnimatedModal';
 
 function Dashboard() {
     const [errors, setErrors] = useState({});
@@ -133,7 +131,7 @@ function Dashboard() {
     }
 
     function renderLinkEditDialog() {
-        return <AnimatedModal
+        return <Dialog
             size='tiny'
             animation='fade down'
             open={dialog.editActive}
@@ -209,7 +207,7 @@ function Dashboard() {
     }
 
     function renderLinkDeleteDialog() {
-        return <AnimatedModal
+        return <Dialog
             size='tiny'
             animation='fade down'
             open={dialog.deleteActive}
@@ -244,7 +242,7 @@ function Dashboard() {
     }
 
     function renderLinkCreateDialog() {
-        return <AnimatedModal
+        return <Dialog
             size='tiny'
             animation='fade down'
             open={dialog.createActive}
@@ -451,7 +449,7 @@ function Dashboard() {
 
     return (
         <Fragment>
-            <ShortLinksHeader />
+            <PageHeader />
             {renderLinkEditDialog()}
             {renderLinkCreateDialog()}
             {renderLinkDeleteDialog()}
@@ -466,7 +464,7 @@ function Dashboard() {
                 </Message>
                 {renderDataTable()}
             </Container>
-            <ShortLinksFooter />
+            <PageFooter />
         </Fragment>
     );
 }
