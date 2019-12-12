@@ -15,7 +15,7 @@ import {
 import { useForm } from '../hooks';
 import { LOGIN_USER } from '../graphql';
 import { AuthContext } from '../context/auth';
-import MessageList from '../components/MessageList';
+import { MessageList } from '../components';
 
 function Login(props) {
     const context = useContext(AuthContext);
@@ -64,9 +64,8 @@ function Login(props) {
                 </Header>
                 <MessageList
                     error
+                    itemIcon='warning circle'
                     list={Object.values(errors)}
-                    listItemIcon='warning circle'
-                    listItemContentStyles={{ textAlign: 'left' }}
                 />
                 <Form
                     noValidate

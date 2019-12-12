@@ -11,8 +11,8 @@ import { browserifyLink } from '../utils';
 import { useParams } from 'react-router-dom';
 import { GET_PUBLIC_LINKS } from '../graphql';
 
-function LinkRedirect() {
-    const { shortURL } = useParams();
+function Redirect() {
+    const { hash } = useParams();
     const [ state, setState ] = useState({});
     const { loading, error, data } = useQuery(GET_PUBLIC_LINKS);
 
@@ -21,7 +21,7 @@ function LinkRedirect() {
         const { getPublicLinks: links } = data;
         // Filter out an active link by short URL 
         const filteredLinks = links.filter(
-            link => link.shortURL === shortURL
+            link => link.shortURL === hash
         );
         // Check that filteredLinks returned results
         if (filteredLinks.length > 0) {
@@ -67,4 +67,4 @@ function LinkRedirect() {
     </Container>;
 }
 
-export default LinkRedirect;
+export default Redirect;

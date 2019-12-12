@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import { Icon, Menu, Image, Dropdown, Container } from 'semantic-ui-react';
 
-import './header.scss';
+import './pageHeader.scss';
 import { AuthContext } from '../../context/auth';
 
 export default function Header() {
     const client = useApolloClient();
     const { logout } = useContext(AuthContext);
 
-    function clickLogout() {
+    function onClickLogout() {
         client.resetStore();
         logout();
     }
@@ -18,13 +18,13 @@ export default function Header() {
         <Menu inverted borderless className='no-border'>
             <Container>
                 <Menu.Item as='a' header>
-                    <Image size='mini' src='/images/logo_white.svg' className='img-mr'/>
+                    <Image size='mini' className='img-mr' src='/images/logo_white.svg'/>
                     Short Links
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Dropdown pointing text='Account' className='link item'>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={clickLogout}>
+                            <Dropdown.Item onClick={onClickLogout}>
                                 <Icon name='sign-out' />
                                 Logout
                             </Dropdown.Item>

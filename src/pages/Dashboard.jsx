@@ -20,8 +20,7 @@ import { copyToClipboard, browserifyLink } from '../utils';
 import { CREATE_LINK, GET_LINKS, EDIT_LINK, DELETE_LINK } from '../graphql';
 
 import { useForm } from '../hooks';
-import { Dialog, PageHeader, PageFooter } from '../components';
-import MessageList from '../components/MessageList';
+import { Dialog, PageHeader, PageFooter, MessageList } from '../components';
 
 function Dashboard() {
     const [errors, setErrors] = useState({});
@@ -143,9 +142,8 @@ function Dashboard() {
                 <Fragment>
                     <MessageList
                         error
+                        itemIcon='warning circle'
                         list={Object.values(errors)}
-                        listItemIcon='warning circle'
-                        listItemContentStyles={{ textAlign: 'left' }}
                     />
                     <Form size='large' noValidate>
                         <Segment size='large'>
@@ -254,9 +252,8 @@ function Dashboard() {
                 <Fragment>
                     <MessageList
                         error
+                        itemIcon='warning circle'
                         list={Object.values(errors)}
-                        listItemIcon='warning circle'
-                        listItemContentStyles={{ textAlign: 'left' }}
                     />
                     <Form size='large' noValidate>
                         <Form.Input

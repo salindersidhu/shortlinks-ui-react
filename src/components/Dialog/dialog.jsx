@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import { Modal, TransitionablePortal } from 'semantic-ui-react';
 
 export default function Dialog(props) {
-    const transObj = {
-        duration: props.duration,
-        animation: props.animation
-    };
+    const {
+        open,
+        size,
+        header,
+        content,
+        actions,
+        onClose,
+        duration,
+        animation
+    } = props;
     return (
-        <TransitionablePortal open={props.open} transition={transObj}>
-            <Modal open size={props.size} onClose={props.onClose}>
-                {props.header}
+        <TransitionablePortal open={open} transition={{ duration, animation }}>
+            <Modal open size={size} onClose={onClose}>
+                {header}
                 <Modal.Content>
-                    {props.content}
+                    {content}
                 </Modal.Content>
                 <Modal.Actions>
-                    {props.actions}
+                    {actions}
                 </Modal.Actions>
             </Modal>
         </TransitionablePortal>

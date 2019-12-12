@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Image, Segment, Container } from 'semantic-ui-react';
-import './footer.scss';
+import './pageFooter.scss';
 
 export default function Footer() {
     return (
