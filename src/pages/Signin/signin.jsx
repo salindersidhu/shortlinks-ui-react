@@ -9,24 +9,22 @@ import {
 } from 'semantic-ui-react';
 
 import { useForm } from '../../hooks';
-import { REGISTER_USER } from '../../graphql';
+import { LOGIN_USER } from '../../graphql';
 import { AuthContext } from '../../context/auth';
-import { PageLayoutForm, MessageList, PasswordMeter } from '../../components';
+import { PageLayoutForm, MessageList } from '../../components';
 
-export default function Signup(props) {
+export default function Signin(props) {
     const context = useContext(AuthContext);
     const [errors, setErrors] = useState({});
-    const [addUser, { loading }] = useMutation(REGISTER_USER);
-    const { onChange, onSubmit, values } = useForm(registerUserCallback, {
+    const [loginUser, { loading }] = useMutation(LOGIN_USER);
+    const { onChange, onSubmit, values } = useForm(loginUserCallback, {
         email: '',
-        username: '',
         password: '',
-        confirmPassword: ''
     });
 
-    function registerUserCallback() {
-        addUser({
-            update(_, { data: { register: userData } }) {
+    function loginUserCallback() {
+        loginUser({
+            update(_, { data: { login: userData } }) {
                 context.login(userData);
                 props.history.push('/');
             },
@@ -42,7 +40,7 @@ export default function Signup(props) {
 
     return (
         <PageLayoutForm
-            heading='Create your account'
+            heading='Sign in to your account'
             logo='/images/logo_black.svg'
         >
             <MessageList
@@ -57,18 +55,6 @@ export default function Signup(props) {
                 className={loading ? 'loading' : ''}
             >
                 <Segment stacked>
-                    <Form.Input
-                        fluid
-                        icon='user'
-                        type='text'
-                        label='Username'
-                        iconPosition='left'
-                        placeholder='Username'
-                        name='username'
-                        onChange={onChange}
-                        value={values.username}
-                        error={errors.username ? true : false}
-                    />
                     <Form.Input
                         fluid
                         icon='envelope'
@@ -93,30 +79,14 @@ export default function Signup(props) {
                         value={values.password}
                         error={errors.password ? true : false}
                     />
-                    <Form.Input
-                        fluid
-                        icon='lock'
-                        type='password'
-                        iconPosition='left'
-                        label='Confirm Password'
-                        placeholder='Confirm Password'
-                        name='confirmPassword'
-                        onChange={onChange}
-                        value={values.confirmPassword}
-                        error={errors.confirmPassword ? true : false}
-                    />
-                    <Container className='field'>
-                        <label>Password Strength</label>
-                        <PasswordMeter value={values.password} />
-                    </Container>
                     <Button fluid color='black' size='large'>
-                        Sign Up
+                        Sign In
                     </Button>
                 </Segment>
             </Form>
             <Message floating>
                 <Container textAlign='center'>
-                    Already have an account? <a href='/signin'>Sign In</a>
+                    New to Short Links? <a href='/signup'>Sign Up</a>
                 </Container>
             </Message>
         </PageLayoutForm>

@@ -5,7 +5,7 @@ import MessageList from './MessageList';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import PasswordMeter from './PasswordMeter';
-import PageFormLayout from './PageFormLayout';
+import PageLayoutForm from './PageLayoutForm';
 
 export {
     Dialog,
@@ -15,5 +15,5 @@ export {
     PublicRoute,
     PrivateRoute,
     PasswordMeter,
-    PageFormLayout
+    PageLayoutForm
 };

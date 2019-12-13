@@ -5,7 +5,7 @@ import 'semantic-ui-css/semantic.min.css';
 import Apollo from './graphql/Apollo';
 import { AuthProvider } from './context/auth';
 import { PublicRoute, PrivateRoute } from './components';
-import { Login, Signup, Dashboard, Redirect } from './pages';
+import { Signup, Signin, Dashboard, Redirect } from './pages';
 
 function App() {
     return <Apollo>
@@ -15,14 +15,14 @@ function App() {
                     <PrivateRoute
                         exact
                         path='/'
-                        rootPath='/login'
+                        rootPath='/signin'
                         component={Dashboard}
                     />
                     <PublicRoute
                         exact
-                        path='/login'
+                        path='/signin'
                         authPath='/'
-                        component={Login}
+                        component={Signin}
                     />
                     <PublicRoute
                         exact

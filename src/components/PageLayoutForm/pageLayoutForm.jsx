@@ -6,7 +6,7 @@ import {
     Header
 } from 'semantic-ui-react';
 
-import './pageFormLayout.scss';
+import './pageLayoutForm.scss';
 
 export default function PageFormLayout(props) {
     const { heading, logo } = props;
