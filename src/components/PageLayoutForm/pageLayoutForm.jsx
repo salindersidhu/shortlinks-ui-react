@@ -9,13 +9,12 @@ import {
 import './pageLayoutForm.scss';
 
 export default function PageFormLayout(props) {
-    const { heading, logo } = props;
     return (
         <Grid verticalAlign='middle' className='pf-grid' centered>
             <Grid.Column className='pf-col'>
-                <Image src={logo} size='tiny' centered/>
+                <Image src={props.logo} size='tiny' centered/>
                 <Header as='h1' color='black' className='pf-heading'>
-                    {heading}
+                    {props.heading}
                 </Header>
                 {props.children}
             </Grid.Column>
@@ -24,6 +23,7 @@ export default function PageFormLayout(props) {
 }
 
 PageFormLayout.propTypes = {
+    children: PropTypes.object,
     logo: PropTypes.string.isRequired,
     heading: PropTypes.string.isRequired
 };

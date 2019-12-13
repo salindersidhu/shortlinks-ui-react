@@ -6,6 +6,7 @@ import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import PasswordMeter from './PasswordMeter';
 import PageLayoutForm from './PageLayoutForm';
+import PageLayoutStandard from './PageLayoutStandard';
 
 export {
     Dialog,
@@ -15,5 +16,6 @@ export {
     PublicRoute,
     PrivateRoute,
     PasswordMeter,
-    PageLayoutForm
+    PageLayoutForm,
+    PageLayoutStandard
 };
