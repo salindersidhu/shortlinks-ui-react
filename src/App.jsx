@@ -5,36 +5,17 @@ import 'semantic-ui-css/semantic.min.css';
 import Apollo from './graphql/Apollo';
 import { AuthProvider } from './context/auth';
 import { PublicRoute, PrivateRoute } from './components';
-import { Signup, Signin, Dashboard, Redirect } from './pages';
+import { Signup, Signin, Dashboard, Link } from './pages';
 
 function App() {
     return <Apollo>
         <AuthProvider>
             <Router>
                 <Switch>
-                    <PrivateRoute
-                        exact
-                        path='/'
-                        rootPath='/signin'
-                        component={Dashboard}
-                    />
-                    <PublicRoute
-                        exact
-                        path='/signin'
-                        authPath='/'
-                        component={Signin}
-                    />
-                    <PublicRoute
-                        exact
-                        path='/signup'
-                        authPath='/'
-                        component={Signup}
-                    />
-                    <Route
-                        exact
-                        path='/:hash'
-                        component={Redirect}
-                    />
+                    <PrivateRoute exact path='/' rootPath='/signin' component={Dashboard}/>
+                    <PublicRoute exact path='/signin' authPath='/' component={Signin}/>
+                    <PublicRoute exact path='/signup' authPath='/' component={Signup}/>
+                    <Route exact path='/:hash' component={Link}/>
                 </Switch>
             </Router>
         </AuthProvider>

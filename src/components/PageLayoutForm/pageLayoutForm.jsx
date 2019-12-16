@@ -23,7 +23,7 @@ export default function PageFormLayout(props) {
 }
 
 PageFormLayout.propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.array,
     logo: PropTypes.string.isRequired,
     heading: PropTypes.string.isRequired
 };
