@@ -21,10 +21,10 @@ export default function Link() {
         if (!loading && !error) {
             // Obtain link with matching hash
             const { getPublicLinks: links } = data;
-            const link = links.filter(link => link.shortURL === hash)[0];
+            const link = links.filter(link => link.hash === hash)[0];
             // Browserify link and redirect
-            if (link && link.longURL) {
-                setUrl(browserifyLink(link.longURL));
+            if (link && link.url) {
+                setUrl(browserifyLink(link.url));
                 window.location.replace(url);
             }
         }

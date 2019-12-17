@@ -97,8 +97,8 @@ function Dashboard() {
     }
 
     function clickEditLinkReset(link) {
+        values.url = link.url;
         values.name = link.name;
-        values.url = link.longURL;
         values.active = link.active;
         setErrors({});
     }
@@ -366,9 +366,9 @@ function Dashboard() {
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
-                        href={browserifyLink(link.longURL)}
+                        href={browserifyLink(link.url)}
                     >
-                        {link.longURL}
+                        {link.url}
                     </a>
                 </Table.Cell>
                 <Table.Cell>
@@ -384,7 +384,7 @@ function Dashboard() {
                                     icon
                                     size='small'
                                     onClick={() => {
-                                        copyLink(link.shortURL);
+                                        copyLink(link.hash);
                                     }}
                                 >
                                     <Icon name='linkify' />
