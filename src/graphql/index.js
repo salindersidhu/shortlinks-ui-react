@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 export const GET_PUBLIC_LINKS = gql`
     {
         getPublicLinks {
-            longURL
-            shortURL
+            url
+            hash
         }
     }
 `;
@@ -13,10 +13,10 @@ export const GET_LINKS = gql`
     {
         getLinks {
             _id
+            url
             name
+            hash
             active
-            longURL
-            shortURL
             createdBy
             updatedAt
         }
@@ -35,10 +35,10 @@ export const CREATE_LINK = gql`
             }
         ) {
             _id
+            url
             name
+            hash
             active
-            longURL
-            shortURL
             createdBy
             updatedAt
         }
@@ -59,10 +59,10 @@ export const EDIT_LINK = gql`
             }
         ) {
             _id
+            url
             name
+            hash
             active
-            longURL
-            shortURL
             createdBy
             updatedAt
         }
