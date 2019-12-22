@@ -11,7 +11,7 @@ import {
 import { useForm } from '../../hooks';
 import { LOGIN_USER } from '../../graphql';
 import { AuthContext } from '../../context/auth';
-import { PageLayoutForm, MessageList } from '../../components';
+import { FormLayout, MessageList } from '../../components';
 
 export default function Signin(props) {
     const context = useContext(AuthContext);
@@ -39,7 +39,7 @@ export default function Signin(props) {
     }
 
     return (
-        <PageLayoutForm
+        <FormLayout
             heading='Sign in to your account'
             logo='/images/logo_black.svg'
         >
@@ -89,6 +89,6 @@ export default function Signin(props) {
                     New to Short Links? <a href='/signup'>Sign Up</a>
                 </Container>
             </Message>
-        </PageLayoutForm>
+        </FormLayout>
     );
 }

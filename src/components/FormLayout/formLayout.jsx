@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    Grid,
-    Image,
-    Header
-} from 'semantic-ui-react';
+import { Grid, Image, Header } from 'semantic-ui-react';
 
-import './pageLayoutForm.scss';
+import './formLayout.scss';
 
-export default function PageFormLayout(props) {
+export default function FormLayout(props) {
     return (
         <Grid verticalAlign='middle' className='pf-grid' centered>
             <Grid.Column className='pf-col'>
@@ -22,7 +18,7 @@ export default function PageFormLayout(props) {
     );
 }
 
-PageFormLayout.propTypes = {
+FormLayout.propTypes = {
     children: PropTypes.array,
     logo: PropTypes.string.isRequired,
     heading: PropTypes.string.isRequired

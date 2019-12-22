@@ -17,7 +17,7 @@ import {
 
 import { useForm } from '../../hooks';
 import { copyToClipboard, browserifyLink } from '../../utils';
-import { PageLayoutStandard, Dialog, MessageList } from '../../components';
+import { StandardLayout, Dialog, MessageList } from '../../components';
 import { GET_LINKS, CREATE_LINK, EDIT_LINK, DELETE_LINK } from '../../graphql';
 
 export default function Dashboard() {
@@ -404,7 +404,7 @@ export default function Dashboard() {
     }
 
     return (
-        <PageLayoutStandard>
+        <StandardLayout>
             {renderLinkEditDialog()}
             {renderLinkCreateDialog()}
             {renderLinkDeleteDialog()}
@@ -415,6 +415,6 @@ export default function Dashboard() {
                 <p>You can use this dashboard to view and manage your links.</p>
             </Message>
             {renderTable()}
-        </PageLayoutStandard>
+        </StandardLayout>
     );
 }

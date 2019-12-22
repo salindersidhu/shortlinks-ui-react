@@ -11,7 +11,7 @@ import {
 import { useForm } from '../../hooks';
 import { REGISTER_USER } from '../../graphql';
 import { AuthContext } from '../../context/auth';
-import { PageLayoutForm, MessageList, PasswordMeter } from '../../components';
+import { FormLayout, MessageList, PasswordMeter } from '../../components';
 
 export default function Signup(props) {
     const context = useContext(AuthContext);
@@ -41,7 +41,7 @@ export default function Signup(props) {
     }
 
     return (
-        <PageLayoutForm
+        <FormLayout
             heading='Create your account'
             logo='/images/logo_black.svg'
         >
@@ -119,6 +119,6 @@ export default function Signup(props) {
                     Already have an account? <a href='/signin'>Sign In</a>
                 </Container>
             </Message>
-        </PageLayoutForm>
+        </FormLayout>
     );
 }
