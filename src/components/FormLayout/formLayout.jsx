@@ -6,10 +6,10 @@ import './formLayout.scss';
 
 export default function FormLayout(props) {
     return (
-        <Grid verticalAlign='middle' className='pf-grid' centered>
-            <Grid.Column className='pf-col'>
+        <Grid verticalAlign='middle' className='fl-grid' centered>
+            <Grid.Column className='fl-col'>
                 <Image src={props.logo} size='tiny' centered/>
-                <Header as='h1' color='black' className='pf-heading'>
+                <Header as='h1' color='black' className='fl-heading'>
                     {props.heading}
                 </Header>
                 {props.children}

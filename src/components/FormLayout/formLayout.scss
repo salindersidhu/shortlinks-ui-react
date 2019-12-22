@@ -1,10 +1,12 @@
-.pf-grid {
-    height: 100vh;
+.fl {
+    &-grid {
+        height: 100vh;
+    }
+    &-col {
+        max-width: 450px;
+    }
 }
-.pf-col {
-    max-width: 450px;
-}
-.ui.header.pf-heading {
+.ui.header.fl-heading {
     margin-top: 0;
     text-align: center;
 }

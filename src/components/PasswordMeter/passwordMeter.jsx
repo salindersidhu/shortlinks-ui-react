@@ -7,16 +7,20 @@ import './passwordMeter.scss';
 
 export default function PasswordMeter(props) {
     const score = props.value.length > 0 ? zxcvbn(props.value).score + 1 : 0;
-    const scoreColors = ['red', 'red', 'orange', 'yellow', 'olive', 'blue'];
     return (
         <Progress
             percent={score * 20}
-            color={scoreColors[score]}
+            color={props.colors[score]}
             className='password-meter'
         />
     );
 }
 
 PasswordMeter.propTypes = {
-    value: PropTypes.string
+    value: PropTypes.string,
+    colors: PropTypes.array
+};
+
+PasswordMeter.defaultProps = {
+    colors: ['red', 'red', 'orange', 'yellow', 'olive', 'olive']
 };
