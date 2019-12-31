@@ -10,22 +10,22 @@ import {
 import './linkRedirect.scss';
 import { NotFound } from '../';
 import { browserifyLink } from '../../utils';
-import { GET_PUBLIC_LINKS } from '../../graphql';
+import { GET_LINK_URL } from '../../graphql';
 
 export default function LinkRedirect() {
     const { hash } = useParams();
     const [url, setUrl] = useState('');
-    const { loading, data, error } = useQuery(GET_PUBLIC_LINKS);
+    const { loading, data, error } = useQuery(GET_LINK_URL, {
+        variables: { hash }
+    });
 
     useEffect(() => {
         if (!loading && !error) {
             // Obtain link with matching hash
-            const { getPublicLinks: links } = data;
-            const link = links.filter(link => link.hash === hash)[0];
-            // Browserify link and redirect
-            console.log(link);
-            if (link && link.url) {
-                setUrl(browserifyLink(link.url));
+            const { getLinkURL: linkURL } = data;
+            if (linkURL) {
+                // Browserify link and redirect
+                setUrl(browserifyLink(linkURL));
                 window.location.replace(url);
             }
         }
@@ -37,18 +37,12 @@ export default function LinkRedirect() {
         );
     }
 
-    function render404() {
-        return (
-            <NotFound/>
-        );
-    }
-
     return (
         <Container>
             <Grid verticalAlign='middle' className='link-grid'>
                 <Grid.Column>
                     {
-                        loading ? renderLoad() : url ? renderLoad() : render404()
+                        loading ? renderLoad() : url ? renderLoad() : <NotFound/>
                     }
                 </Grid.Column>
             </Grid>
