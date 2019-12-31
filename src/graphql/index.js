@@ -1,14 +1,5 @@
 import gql from 'graphql-tag';
 
-export const GET_PUBLIC_LINKS = gql`
-    {
-        getPublicLinks {
-            url
-            hash
-        }
-    }
-`;
-
 export const GET_LINKS = gql`
     {
         getLinks {
@@ -20,6 +11,18 @@ export const GET_LINKS = gql`
             createdBy
             updatedAt
         }
+    }
+`;
+
+export const GET_LINK_URL = gql`
+    query getLinkURL(
+        $hash: String!
+    ) {
+        getLinkURL(
+            input: {
+                hash: $hash
+            }
+        )
     }
 `;
 

@@ -15,7 +15,7 @@ export default function Header() {
     }
 
     return (
-        <Menu inverted borderless className='no-border'>
+        <Menu inverted borderless className='no-border-radius'>
             <Container>
                 <Menu.Item as='a' header>
                     <Image size='mini' className='img-mr' src='/images/logo_white.svg'/>

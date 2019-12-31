@@ -4,7 +4,7 @@ import { Container } from 'semantic-ui-react';
 
 import { PageHeader, PageFooter } from '../../components';
 
-export default function PageLayoutStandard(props) {
+export default function StandardLayout(props) {
     return (
         <Fragment>
             <PageHeader />
@@ -16,6 +16,6 @@ export default function PageLayoutStandard(props) {
     );
 }
 
-PageLayoutStandard.propTypes = {
+StandardLayout.propTypes = {
     children: PropTypes.array
 };
