@@ -1,1 +1,1 @@
-export { default } from './passwordMeter';
+export { default } from "./passwordMeter";
