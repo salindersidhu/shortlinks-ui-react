@@ -6,7 +6,8 @@ import { Progress } from "semantic-ui-react";
 import "./passwordMeter.scss";
 
 export default function PasswordMeter(props) {
-  const score = props.value.length > 0 ? zxcvbn(props.value).score + 1 : 0;
+  const score =
+    props.value && props.value.length > 0 ? zxcvbn(props.value).score + 1 : 0;
   return (
     <Progress
       percent={score * 20}

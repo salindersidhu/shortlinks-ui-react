@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@apollo/react-hooks";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   Form,
   Icon,
@@ -15,7 +16,6 @@ import {
   Checkbox
 } from "semantic-ui-react";
 
-import { useForm } from "../../hooks";
 import { copyToClipboard, browserifyLink } from "../../utils";
 import { StandardLayout, Dialog, MessageList } from "../../components";
 import { GET_LINKS, CREATE_LINK, EDIT_LINK, DELETE_LINK } from "../../graphql";
@@ -32,59 +32,70 @@ export default function Dashboard() {
     createActive: false,
     deleteActive: false
   });
-  const { onChange, onSubmit, values, reset } = useForm(createLinkOnSubmit, {
-    url: "",
-    name: ""
-  });
+  const { register, handleSubmit, setValue, watch, reset } = useForm();
 
-  function closeDialog() {
+  const url = watch("url");
+  const name = watch("name");
+  const active = watch("active");
+
+  useEffect(() => {
+    register({ name: "url", value: "" });
+    register({ name: "name", value: "" });
+    register({ name: "active", value: false });
+  }, [register]);
+
+  const onChange = (_, { name, value }) => {
+    setValue(name, value);
+  };
+
+  const closeDialog = () => {
     setDialog({
       ...dialog,
       editActive: false,
       createActive: false,
       deleteActive: false
     });
-  }
+  };
 
-  function createLinkClearOnClick() {
+  const createLinkClearOnClick = () => {
     reset();
     setErrors({});
-  }
+  };
 
-  function editLinkResetOnClick(link) {
-    values.url = link.url;
-    values.name = link.name;
-    values.active = link.active;
+  const editLinkResetOnClick = link => {
+    setValue("url", link.url);
+    setValue("name", link.name);
+    setValue("active", link.active);
     setErrors({});
-  }
+  };
 
-  function createLinkOnClick() {
+  const createLinkOnClick = () => {
     createLinkClearOnClick();
     setDialog({
       ...dialog,
       link: {},
       createActive: true
     });
-  }
+  };
 
-  function editLinkOnClick(link) {
+  const editLinkOnClick = link => {
     editLinkResetOnClick(link);
     setDialog({
       ...dialog,
       link,
       editActive: true
     });
-  }
+  };
 
-  function deleteLinkOnClick(link) {
+  const deleteLinkOnClick = link => {
     setDialog({
       ...dialog,
       link,
       deleteActive: true
     });
-  }
+  };
 
-  function createLinkOnSubmit() {
+  const createLinkOnSubmit = values => {
     createLink({
       update(_, { data: { createLink: linkData } }) {
         data.getLinks.push(linkData);
@@ -97,14 +108,14 @@ export default function Dashboard() {
       .catch(err => {
         setErrors(err.graphQLErrors[0].extensions.exception.errors);
       });
-  }
+  };
 
-  function editLinkOnSubmit(_id) {
+  const editLinkOnSubmit = (values, id) => {
     editLink({
       update(_, { data: { editLink: linkData } }) {
         data.getLinks.push(linkData);
       },
-      variables: { ...values, _id }
+      variables: { ...values, _id: id }
     })
       .then(() => {
         closeDialog();
@@ -112,22 +123,22 @@ export default function Dashboard() {
       .catch(err => {
         setErrors(err.graphQLErrors[0].extensions.exception.errors);
       });
-  }
+  };
 
-  function deleteLinkOnSubmit(_id) {
+  const deleteLinkOnSubmit = id => {
     deleteLink({
       update(proxy) {
         const data = proxy.readQuery({ query: GET_LINKS });
-        data.getLinks = data.getLinks.filter(l => l._id !== _id);
+        data.getLinks = data.getLinks.filter(l => l._id !== id);
         proxy.writeQuery({ query: GET_LINKS, data });
       },
-      variables: { _id }
+      variables: { _id: id }
     }).then(() => {
       closeDialog();
     });
-  }
+  };
 
-  function renderLinkEditDialog() {
+  const renderLinkEditDialog = () => {
     return (
       <Dialog
         size="tiny"
@@ -147,12 +158,11 @@ export default function Dashboard() {
                 <Checkbox
                   toggle
                   name="active"
-                  onChange={onChange}
-                  label={`Link ${values.active ? "Enabled" : "Disabled"}`}
+                  label={`Link ${active ? "Enabled" : "Disabled"}`}
                   onClick={() => {
-                    values.active = !values.active;
+                    setValue("active", !active);
                   }}
-                  checked={values.active}
+                  checked={active}
                 />
               </Segment>
               <Form.Input
@@ -164,7 +174,7 @@ export default function Dashboard() {
                 placeholder="Name"
                 name="name"
                 onChange={onChange}
-                value={values.name}
+                value={name}
                 error={errors.name ? true : false}
               />
               <Form.Input
@@ -173,7 +183,7 @@ export default function Dashboard() {
                 icon="linkify"
                 type="text"
                 label="URL"
-                placeholder={values.url}
+                placeholder={url}
                 iconPosition="left"
                 value=""
               />
@@ -194,17 +204,17 @@ export default function Dashboard() {
               content="Update"
               icon="checkmark"
               labelPosition="right"
-              onClick={() => {
-                editLinkOnSubmit(dialog.link._id);
-              }}
+              onClick={handleSubmit(values => {
+                editLinkOnSubmit(values, dialog.link._id);
+              })}
             />
           </Fragment>
         }
       />
     );
-  }
+  };
 
-  function renderLinkDeleteDialog() {
+  const renderLinkDeleteDialog = () => {
     return (
       <Dialog
         size="tiny"
@@ -233,9 +243,9 @@ export default function Dashboard() {
         }
       />
     );
-  }
+  };
 
-  function renderLinkCreateDialog() {
+  const renderLinkCreateDialog = () => {
     return (
       <Dialog
         size="tiny"
@@ -260,7 +270,6 @@ export default function Dashboard() {
                 placeholder="Name"
                 name="name"
                 onChange={onChange}
-                value={values.name}
                 error={errors.name ? true : false}
               />
               <Form.Input
@@ -272,7 +281,6 @@ export default function Dashboard() {
                 placeholder="URL"
                 name="url"
                 onChange={onChange}
-                value={values.url}
                 error={errors.url ? true : false}
               />
             </Form>
@@ -290,15 +298,15 @@ export default function Dashboard() {
               content="Submit"
               icon="checkmark"
               labelPosition="right"
-              onClick={onSubmit}
+              onClick={handleSubmit(createLinkOnSubmit)}
             />
           </Fragment>
         }
       />
     );
-  }
+  };
 
-  function renderTableLoader() {
+  const renderTableLoader = () => {
     return (
       <Table.Row>
         <Table.Cell colSpan={5}>
@@ -308,9 +316,9 @@ export default function Dashboard() {
         </Table.Cell>
       </Table.Row>
     );
-  }
+  };
 
-  function renderTable404() {
+  const renderTable404 = () => {
     return (
       <Table.Row>
         <Table.Cell colSpan={5}>
@@ -323,9 +331,9 @@ export default function Dashboard() {
         </Table.Cell>
       </Table.Row>
     );
-  }
+  };
 
-  function renderTable() {
+  const renderTable = () => {
     return (
       <Fragment>
         <Message attached="top">
@@ -434,7 +442,7 @@ export default function Dashboard() {
         </Table>
       </Fragment>
     );
-  }
+  };
 
   return (
     <StandardLayout>

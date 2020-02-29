@@ -76,9 +76,6 @@ Shortlinks UI React welcomes contributions from anyone and everyone. Please see 
     │    │   ├── Apollo.jsx         # Custom Apollo Provider
     │    │   ├── index.js           # GraphQL queries
     │    │   └── ...
-    │    ├── hooks                  # Custom hooks
-    │    │   ├── index.js           # Hook source file
-    │    │   └── ...
     │    ├── pages                  # Application pages
     │    │   └── ...
     │    ├── utils                  # Utils
@@ -87,7 +84,7 @@ Shortlinks UI React welcomes contributions from anyone and everyone. Please see 
     │    ├── App.css                # Application styles
     │    ├── App.jsx                # Application source
     │    ├── index.js               # Main source file
-    │    ├── serviceWorker          # PWA service worker file
+    │    ├── serviceWorker.js       # PWA service worker file
     │    └── ...
     ├── public                      # Web app public folder
     │   ├── images                  # Web app images
@@ -97,7 +94,6 @@ Shortlinks UI React welcomes contributions from anyone and everyone. Please see 
     │   ├── manifest.json           # Web app manifest file
     │   ├── robots.txt              # PWA robots file
     │   └── ...
-    ├── index.js                    # Main server logic
     ├── .env.development.js         # Development build config
     ├── .env.production.js          # Production build config
     ├── .eslintrc                   # Eslint file

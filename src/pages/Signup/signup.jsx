@@ -1,8 +1,8 @@
+import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/react-hooks";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Form, Button, Segment, Message, Container } from "semantic-ui-react";
 
-import { useForm } from "../../hooks";
 import { REGISTER_USER } from "../../graphql";
 import { AuthContext } from "../../context/auth";
 import { FormLayout, MessageList, PasswordMeter } from "../../components";
@@ -11,14 +11,21 @@ export default function Signup(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const [addUser, { loading }] = useMutation(REGISTER_USER);
-  const { onChange, onSubmit, values } = useForm(registerUserCallback, {
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: ""
-  });
+  const { register, handleSubmit, setValue, watch } = useForm();
+  const password = watch("password");
 
-  function registerUserCallback() {
+  useEffect(() => {
+    register({ name: "email", value: "" });
+    register({ name: "username", value: "" });
+    register({ name: "password", value: "" });
+    register({ name: "confirmPassword", value: "" });
+  }, [register]);
+
+  const onChange = (_, { name, value }) => {
+    setValue(name, value);
+  };
+
+  const onSubmit = values => {
     addUser({
       update(_, { data: { register: userData } }) {
         context.login(userData);
@@ -29,10 +36,10 @@ export default function Signup(props) {
       if (graphQLErrors.length > 0 && !networkError) {
         setErrors(graphQLErrors[0].extensions.exception.errors);
       } else {
-        setErrors({ general: "Cannot connect with server" });
+        setErrors({ general: "Cannot communicate with server" });
       }
     });
-  }
+  };
 
   return (
     <FormLayout heading="Create your account" logo="/images/logo_black.svg">
@@ -44,7 +51,7 @@ export default function Signup(props) {
       <Form
         noValidate
         size="large"
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className={loading ? "loading" : ""}
       >
         <Segment stacked>
@@ -57,7 +64,6 @@ export default function Signup(props) {
             placeholder="Username"
             name="username"
             onChange={onChange}
-            value={values.username}
             error={errors.username ? true : false}
           />
           <Form.Input
@@ -69,7 +75,6 @@ export default function Signup(props) {
             placeholder="Email"
             name="email"
             onChange={onChange}
-            value={values.email}
             error={errors.email ? true : false}
           />
           <Form.Input
@@ -81,7 +86,6 @@ export default function Signup(props) {
             placeholder="Password"
             name="password"
             onChange={onChange}
-            value={values.password}
             error={errors.password ? true : false}
           />
           <Form.Input
@@ -93,12 +97,11 @@ export default function Signup(props) {
             placeholder="Confirm Password"
             name="confirmPassword"
             onChange={onChange}
-            value={values.confirmPassword}
             error={errors.confirmPassword ? true : false}
           />
           <Container className="field">
             <label>Password Strength</label>
-            <PasswordMeter value={values.password} />
+            <PasswordMeter value={password} />
           </Container>
           <Button fluid color="black" size="large">
             Sign Up
