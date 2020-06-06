@@ -10,7 +10,7 @@ export default function PrivateRoute(props) {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         user ? <Component {...props} /> : <Redirect to={rootPath} />
       }
     />
@@ -19,5 +19,5 @@ export default function PrivateRoute(props) {
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  rootPath: PropTypes.string.isRequired
+  rootPath: PropTypes.string.isRequired,
 };

@@ -13,7 +13,7 @@ import {
   Message,
   Divider,
   Segment,
-  Checkbox
+  Checkbox,
 } from "semantic-ui-react";
 
 import { copyToClipboard, browserifyLink } from "../../utils";
@@ -30,7 +30,7 @@ export default function Dashboard() {
     link: {},
     editActive: false,
     createActive: false,
-    deleteActive: false
+    deleteActive: false,
   });
   const { register, handleSubmit, setValue, watch, reset } = useForm();
 
@@ -53,7 +53,7 @@ export default function Dashboard() {
       ...dialog,
       editActive: false,
       createActive: false,
-      deleteActive: false
+      deleteActive: false,
     });
   };
 
@@ -62,7 +62,7 @@ export default function Dashboard() {
     setErrors({});
   };
 
-  const editLinkResetOnClick = link => {
+  const editLinkResetOnClick = (link) => {
     setValue("url", link.url);
     setValue("name", link.name);
     setValue("active", link.active);
@@ -74,38 +74,38 @@ export default function Dashboard() {
     setDialog({
       ...dialog,
       link: {},
-      createActive: true
+      createActive: true,
     });
   };
 
-  const editLinkOnClick = link => {
+  const editLinkOnClick = (link) => {
     editLinkResetOnClick(link);
     setDialog({
       ...dialog,
       link,
-      editActive: true
+      editActive: true,
     });
   };
 
-  const deleteLinkOnClick = link => {
+  const deleteLinkOnClick = (link) => {
     setDialog({
       ...dialog,
       link,
-      deleteActive: true
+      deleteActive: true,
     });
   };
 
-  const createLinkOnSubmit = values => {
+  const createLinkOnSubmit = (values) => {
     createLink({
       update(_, { data: { createLink: linkData } }) {
         data.getLinks.push(linkData);
       },
-      variables: values
+      variables: values,
     })
       .then(() => {
         closeDialog();
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors(err.graphQLErrors[0].extensions.exception.errors);
       });
   };
@@ -115,24 +115,24 @@ export default function Dashboard() {
       update(_, { data: { editLink: linkData } }) {
         data.getLinks.push(linkData);
       },
-      variables: { ...values, _id: id }
+      variables: { ...values, _id: id },
     })
       .then(() => {
         closeDialog();
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors(err.graphQLErrors[0].extensions.exception.errors);
       });
   };
 
-  const deleteLinkOnSubmit = id => {
+  const deleteLinkOnSubmit = (id) => {
     deleteLink({
       update(proxy) {
         const data = proxy.readQuery({ query: GET_LINKS });
-        data.getLinks = data.getLinks.filter(l => l._id !== id);
+        data.getLinks = data.getLinks.filter((l) => l._id !== id);
         proxy.writeQuery({ query: GET_LINKS, data });
       },
-      variables: { _id: id }
+      variables: { _id: id },
     }).then(() => {
       closeDialog();
     });
@@ -204,7 +204,7 @@ export default function Dashboard() {
               content="Update"
               icon="checkmark"
               labelPosition="right"
-              onClick={handleSubmit(values => {
+              onClick={handleSubmit((values) => {
                 editLinkOnSubmit(values, dialog.link._id);
               })}
             />
@@ -361,7 +361,7 @@ export default function Dashboard() {
             {loading
               ? renderTableLoader()
               : data && data.getLinks.length > 0
-              ? data.getLinks.map(link => (
+              ? data.getLinks.map((link) => (
                   <Table.Row key={link._id}>
                     <Table.Cell collapsing>
                       <Label color={link.active ? "green" : "red"}>

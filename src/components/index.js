@@ -21,5 +21,5 @@ export {
   PrivateRoute,
   LinkRedirect,
   PasswordMeter,
-  StandardLayout
+  StandardLayout,
 };

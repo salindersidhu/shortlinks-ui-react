@@ -21,5 +21,5 @@ export default function FormLayout(props) {
 FormLayout.propTypes = {
   children: PropTypes.array,
   logo: PropTypes.string.isRequired,
-  heading: PropTypes.string.isRequired
+  heading: PropTypes.string.isRequired,
 };

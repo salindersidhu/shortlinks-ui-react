@@ -15,5 +15,5 @@ export default function StandardLayout(props) {
 }
 
 StandardLayout.propTypes = {
-  children: PropTypes.array
+  children: PropTypes.array,
 };

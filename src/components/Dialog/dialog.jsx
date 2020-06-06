@@ -11,7 +11,7 @@ export default function Dialog(props) {
     actions,
     onClose,
     duration,
-    animation
+    animation,
   } = props;
   return (
     <TransitionablePortal open={open} transition={{ duration, animation }}>
@@ -32,11 +32,11 @@ Dialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   header: PropTypes.object.isRequired,
   content: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
 };
 
 Dialog.defaultProps = {
   size: "fullscreen",
   duration: 500,
-  animation: "scale"
+  animation: "scale",
 };

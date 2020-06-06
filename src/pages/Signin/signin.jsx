@@ -22,13 +22,13 @@ export default function Signin(props) {
     setValue(name, value);
   };
 
-  const onSubmit = values => {
+  const onSubmit = (values) => {
     loginUser({
       update(_, { data: { login: userData } }) {
         context.login(userData);
         props.history.push("/");
       },
-      variables: values
+      variables: values,
     }).catch(({ graphQLErrors, networkError }) => {
       if (graphQLErrors.length > 0 && !networkError) {
         setErrors(graphQLErrors[0].extensions.exception.errors);

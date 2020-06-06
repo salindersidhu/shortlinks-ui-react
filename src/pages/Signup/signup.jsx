@@ -25,13 +25,13 @@ export default function Signup(props) {
     setValue(name, value);
   };
 
-  const onSubmit = values => {
+  const onSubmit = (values) => {
     addUser({
       update(_, { data: { register: userData } }) {
         context.login(userData);
         props.history.push("/");
       },
-      variables: values
+      variables: values,
     }).catch(({ graphQLErrors, networkError }) => {
       if (graphQLErrors.length > 0 && !networkError) {
         setErrors(graphQLErrors[0].extensions.exception.errors);

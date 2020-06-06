@@ -9,9 +9,9 @@ if (localStorage.getItem("token")) {
 const AuthContext = createContext({
   user: null,
   /* eslint-disable */
-  login: userData => {},
+  login: (userData) => {},
   /* eslint-enable */
-  logout: () => {}
+  logout: () => {},
 });
 
 function authReducer(state, action) {
@@ -19,12 +19,12 @@ function authReducer(state, action) {
     case "LOGIN":
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
     case "LOGOUT":
       return {
         ...state,
-        user: null
+        user: null,
       };
     default:
       return state;
@@ -38,7 +38,7 @@ function AuthProvider(props) {
     localStorage.setItem("token", userData.token);
     dispatch({
       type: "LOGIN",
-      payload: userData
+      payload: userData,
     });
   }
 

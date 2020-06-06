@@ -22,5 +22,5 @@ export default function MessageList(props) {
 
 MessageList.propTypes = {
   itemIcon: PropTypes.string,
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
 };

@@ -10,7 +10,7 @@ export default function PublicRoute(props) {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         user ? <Redirect to={authPath} /> : <Component {...props} />
       }
     />
@@ -19,5 +19,5 @@ export default function PublicRoute(props) {
 
 PublicRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  authPath: PropTypes.string.isRequired
+  authPath: PropTypes.string.isRequired,
 };

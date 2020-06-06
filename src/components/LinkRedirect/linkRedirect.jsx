@@ -12,7 +12,7 @@ export default function LinkRedirect() {
   const { hash } = useParams();
   const [url, setUrl] = useState("");
   const { loading, data, error } = useQuery(GET_LINK_URL, {
-    variables: { hash }
+    variables: { hash },
   });
 
   useEffect(() => {

@@ -19,9 +19,9 @@ export default function PasswordMeter(props) {
 
 PasswordMeter.propTypes = {
   value: PropTypes.string,
-  colors: PropTypes.array
+  colors: PropTypes.array,
 };
 
 PasswordMeter.defaultProps = {
-  colors: ["red", "red", "orange", "yellow", "olive", "olive"]
+  colors: ["red", "red", "orange", "yellow", "olive", "olive"],
 };
