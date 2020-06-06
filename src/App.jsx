@@ -8,7 +8,7 @@ import {
   PublicRoute,
   PrivateRoute,
   LinkRedirect,
-  NotFound
+  NotFound,
 } from "./components";
 import { Signup, Signin, Dashboard } from "./pages";
 
