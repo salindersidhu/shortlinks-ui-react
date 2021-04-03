@@ -31,8 +31,8 @@
   },
   "homepage": "",
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.5",
-    "@types/react": "^16.14.5",
+    "@apollo/react-hooks": "^4.0.0",
+    "@types/react": "^17.0.3",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
@@ -40,25 +40,25 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "prop-types": "^15.7.2",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-hook-form": "^5.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.0.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^4.0.3",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2",
-    "typescript": "^3.9.9",
+    "semantic-ui-react": "^2.0.3",
+    "typescript": "^4.2.3",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "fibers": "^5.0.0",
     "file-loader": "^6.2.0",
-    "husky": "^4.3.8",
-    "node-sass": "^4.14.1",
+    "husky": "^6.0.0",
+    "node-sass": "^5.0.0",
     "prettier": "^2.2.1",
-    "pretty-quick": "^2.0.2"
+    "pretty-quick": "^3.1.0"
   },
   "husky": {
     "hooks": {
