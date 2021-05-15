@@ -32,13 +32,14 @@
   "homepage": "",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
-    "@types/react": "^17.0.3",
+    "@types/react": "^17.0.5",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "graphql": "^15.5.0",
-    "graphql-tag": "^2.11.0",
+    "graphql-tag": "^2.12.4",
+    "node-sass": "^6.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -47,17 +48,16 @@
     "react-scripts": "^4.0.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
-    "typescript": "^4.2.3",
+    "typescript": "^4.2.4",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "fibers": "^5.0.0",
     "file-loader": "^6.2.0",
     "husky": "^6.0.0",
-    "node-sass": "^5.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0"
   },
   "husky": {
