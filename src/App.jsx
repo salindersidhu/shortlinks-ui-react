@@ -15,7 +15,6 @@ import { Signup, Signin, Dashboard } from "./pages";
 function App() {
   return (
     <Apollo>
-      {" "}
       <AuthProvider>
         <Router>
           <Switch>
