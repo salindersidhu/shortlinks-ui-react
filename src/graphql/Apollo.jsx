@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import ApolloClient from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { setContext } from "apollo-link-context";
 import { createHttpLink } from "apollo-link-http";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { setContext } from "apollo-link-context";
+import { InMemoryCache } from "apollo-cache-inmemory";
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_API_URI,
@@ -25,11 +26,13 @@ const client = new ApolloClient({
 });
 
 function Apollo(props) {
-  return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
+  const { children } = props;
+
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
 
 Apollo.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.object.isRequired,
 };
 
 export default Apollo;

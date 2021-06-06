@@ -1,5 +1,5 @@
-import Signin from "./Signin";
-import Signup from "./Signup";
+import SignIn from "./Signin";
+import SignUp from "./Signup";
 import Dashboard from "./Dashboard";
 
-export { Signin, Signup, Dashboard };
+export { SignIn, SignUp, Dashboard };
