@@ -55,7 +55,7 @@ npm start
 
 ## Building
 
-1. Create the `.env.production` file at the root of your project. Configure the following variables for your development environment:
+1. Create the `.env.production` file at the root of your project. Configure the following variables for your production environment:
 
 ```
 GENERATE_SOURCEMAP=false
