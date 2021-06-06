@@ -6,6 +6,7 @@
 
 - [Development](#development)
   - [Prerequisites](#Prerequisites)
+  - [Backend](#backend)
   - [Running](#running)
   - [Building](#building)
   - [Contributing](#contributing)
@@ -18,8 +19,6 @@
 
 ## Prerequisites
 
-Ensure that you have the following installed and configured any environment variables.
-
 - **Git**
   - Version 2.20.1+
 - **Node**
@@ -29,17 +28,26 @@ Ensure that you have the following installed and configured any environment vari
 - **Chrome: React Developer Tools**
   - Version 4.2.0+
 
+## Backend
+
+The backend required for this project is [ShortLinks API GraphQL](https://github.com/salindersidhu/shortlinks-api-graphql). Please refer to its README for further instructions.
+
 ## Running
 
-Run the following command to install all the required packages:
+1. Run the following command to install all the required packages:
 
 ```bash
 npm install
 ```
 
-Configure the variables in the `.env.development` file, such as `REACT_APP_GRAPHQL_API_URI` for your development environment.
+2. Create the `.env.development` file at the root of your project. Configure the following variables for your development environment:
 
-Start a local development server with live reload using the following command:
+```
+GENERATE_SOURCEMAP=true
+REACT_APP_GRAPHQL_API_URI=
+```
+
+3. Start a local development server with live reload using the following command:
 
 ```bash
 npm start
@@ -47,9 +55,14 @@ npm start
 
 ## Building
 
-Configure the variables in the `.env.production` file, such as `REACT_APP_GRAPHQL_API_URI` for your production environment.
+1. Create the `.env.production` file at the root of your project. Configure the following variables for your development environment:
 
-Run the following command to generate a production build in the `build` folder:
+```
+GENERATE_SOURCEMAP=false
+REACT_APP_GRAPHQL_API_URI=
+```
+
+2. Run the following command to generate a production build in the `build` folder:
 
 ```bash
 npm run build
@@ -67,8 +80,8 @@ Shortlinks UI React welcomes contributions from anyone and everyone. Please see 
 
     .
     ├── ...
-    ├── src                         # Main source
-    │    ├── components             # Custom components
+    ├── src
+    │    ├── components             # Reusable custom components
     │    │   └── ...
     │    ├── context                # Custom context
     │    │   └── ...
@@ -78,23 +91,21 @@ Shortlinks UI React welcomes contributions from anyone and everyone. Please see 
     │    │   └── ...
     │    ├── pages                  # Application pages
     │    │   └── ...
-    │    ├── utils                  # Utils
-    │    │   ├── index.js           # Utils source file
+    │    ├── widgets                # Application page components
     │    │   └── ...
-    │    ├── App.css                # Application styles
     │    ├── App.jsx                # Application source
     │    ├── index.js               # Main source file
     │    ├── serviceWorker.js       # PWA service worker file
+    │    ├── utils.js               # Utilities source file
     │    └── ...
     ├── public                      # Web app public folder
     │   ├── images                  # Web app images
     │   │   └── ...
-    │   ├── index.html              # Web app source file
     │   ├── favicon.ico             # Web app icon
+    │   ├── index.html              # Web app source file
+    │   ├── logo192.png             # Web app logo 192x192 pixels
+    │   ├── logo512.png             # Web app logo 512x512 pixels
     │   ├── manifest.json           # Web app manifest file
     │   ├── robots.txt              # PWA robots file
     │   └── ...
-    ├── .env.development.js         # Development build config
-    ├── .env.production.js          # Production build config
-    ├── .eslintrc                   # Eslint file
     └── ...
