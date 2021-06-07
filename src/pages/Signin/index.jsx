@@ -21,6 +21,7 @@ import {
 import { LOGIN_USER } from "../../graphql";
 import { AuthContext } from "../../context/auth";
 import { Alert, Copyright } from "../../widgets";
+import { CustomThemeContext } from "../../context/theme";
 
 import schema from "./schema";
 import useStyles from "./styles";
@@ -33,6 +34,7 @@ function SignIn(props) {
   const [alertError, setAlertError] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
   const [loginUser, { loading }] = useMutation(LOGIN_USER);
+  const { currentTheme } = useContext(CustomThemeContext);
   const {
     control,
     handleSubmit,
@@ -69,7 +71,14 @@ function SignIn(props) {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} elevation={6} component={Paper} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar} src="/images/logo_black.svg" />
+          <Avatar
+            className={classes.avatar}
+            src={
+              currentTheme === "light"
+                ? "/images/logo_black.svg"
+                : "/images/logo_white.svg"
+            }
+          />
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>

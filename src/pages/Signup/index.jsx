@@ -20,6 +20,7 @@ import {
 
 import { REGISTER_USER } from "../../graphql";
 import { AuthContext } from "../../context/auth";
+import { CustomThemeContext } from "../../context/theme";
 import { Alert, Copyright, PasswordMeter } from "../../widgets";
 
 import schema from "./schema";
@@ -32,6 +33,7 @@ function SignUp(props) {
   const context = useContext(AuthContext);
   const [alertError, setAlertError] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
+  const { currentTheme } = useContext(CustomThemeContext);
   const [addUser, { loading }] = useMutation(REGISTER_USER);
   const {
     watch,
@@ -71,7 +73,14 @@ function SignUp(props) {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} elevation={6} component={Paper} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar} src="/images/logo_black.svg" />
+          <Avatar
+            className={classes.avatar}
+            src={
+              currentTheme === "light"
+                ? "/images/logo_black.svg"
+                : "/images/logo_white.svg"
+            }
+          />
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
