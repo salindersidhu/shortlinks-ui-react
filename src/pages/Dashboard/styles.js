@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
+  paper: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 export default useStyles;
