@@ -1,33 +1,61 @@
 import React, { useState, useContext } from "react";
-
 import clsx from "clsx";
+import GitInfo from "react-git-info/macro";
 import moment from "moment";
 import PropTypes from "prop-types";
-import GitInfo from "react-git-info/macro";
-import { useApolloClient } from "@apollo/react-hooks";
-
 import {
-  Menu,
   AppBar,
+  IconButton,
+  Menu,
+  MenuItem,
   Toolbar,
   Tooltip,
-  MenuItem,
-  IconButton,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
-  Menu as MenuIcon,
-  MoreVert as MoreVertIcon,
   Brightness4 as Brightness4Icon,
   BrightnessHigh as BrightnessHighIcon,
-} from "@material-ui/icons";
+  Menu as MenuIcon,
+  MoreVert as MoreVertIcon,
+} from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
+import { useApolloClient } from "@apollo/react-hooks";
 
-import { Alert } from "../";
-import { isDevelopment } from "../../utils";
-import { AuthContext } from "../../context/auth";
-import { CustomThemeContext } from "../../context/theme";
+import { Alert } from ".";
+import { AuthContext } from "../context/auth";
+import { CustomThemeContext } from "../context/theme";
 
-import useStyles from "./styles";
+const DRAWER_WIDTH = 240;
+
+const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: DRAWER_WIDTH,
+    width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: "none",
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
 function Header(props) {
   const { isDrawerOpen, onOpenDrawer } = props;
@@ -118,9 +146,7 @@ function Header(props) {
         visible={alertVisible}
         onClose={onCloseAlert}
         title="About"
-        description={`Shortlinks Web UI ${
-          isDevelopment() ? "Development" : "Production"
-        } Build: ${gitInfo.commit.shortHash} (${moment(
+        description={`Shortlinks Build: ${gitInfo.commit.shortHash} (${moment(
           gitInfo.commit.date
         ).format("MMM DD, YYYY")})`}
       ></Alert>

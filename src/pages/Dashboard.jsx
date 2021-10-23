@@ -1,21 +1,32 @@
 import React, { useState } from "react";
-
 import moment from "moment";
+import { Box, Container, CssBaseline, Grid, Link, Paper } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useQuery } from "@apollo/react-hooks";
-import {
-  Box,
-  Grid,
-  Link,
-  Paper,
-  Container,
-  CssBaseline,
-} from "@material-ui/core";
 
-import { Header, Sidebar, Copyright, DataTable } from "../../widgets";
+import { browserifyLink } from "../utils";
+import { Copyright, DataTable, Header, Sidebar } from "../widgets";
+import { GET_LINKS } from "../graphql";
 
-import useStyles from "./styles";
-import { GET_LINKS } from "../../graphql";
-import { browserifyLink } from "../../utils";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto",
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 function Dashboard() {
   const classes = useStyles();

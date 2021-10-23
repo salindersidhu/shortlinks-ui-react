@@ -1,41 +1,87 @@
 import React, { useContext, useState } from "react";
-
+import * as yup from "yup";
 import lodash from "lodash";
-import { useMutation } from "@apollo/react-hooks";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-
 import {
+  Avatar,
   Box,
+  Button,
+  CircularProgress,
+  CssBaseline,
   Grid,
   Link,
   Paper,
-  Avatar,
-  Button,
   TextField,
   Typography,
-  CssBaseline,
-  CircularProgress,
-} from "@material-ui/core";
+} from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import { makeStyles } from "@mui/styles";
+import { useMutation } from "@apollo/react-hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import { LOGIN_USER } from "../../graphql";
-import { AuthContext } from "../../context/auth";
-import { Alert, Copyright } from "../../widgets";
-import { CustomThemeContext } from "../../context/theme";
+import { AuthContext } from "../context/auth";
+import { Alert, Copyright, PasswordMeter } from "../widgets";
+import { CustomThemeContext } from "../context/theme";
+import { REGISTER_USER } from "../graphql";
 
-import schema from "./schema";
-import useStyles from "./styles";
+const schema = yup.object().shape({
+  username: yup.string().required().label("Username"),
+  email: yup.string().email().required().label("Email"),
+  password: yup.string().required().label("Password"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required()
+    .label("Confirm Password"),
+});
 
-function SignIn(props) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: "100vh",
+  },
+  image: {
+    backgroundImage:
+      theme.palette.type === "light"
+        ? "url(images/bg_light.jpg)"
+        : "url(images/bg_dark.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+  },
+  paper: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    margin: theme.spacing(8, 4),
+  },
+  avatar: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    margin: theme.spacing(1),
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+function SignUp(props) {
   const { history } = props;
 
   const classes = useStyles();
   const context = useContext(AuthContext);
   const [alertError, setAlertError] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
-  const [loginUser, { loading }] = useMutation(LOGIN_USER);
   const { currentTheme } = useContext(CustomThemeContext);
+  const [addUser, { loading }] = useMutation(REGISTER_USER);
   const {
+    watch,
     control,
     handleSubmit,
     formState: { errors },
@@ -45,8 +91,8 @@ function SignIn(props) {
 
   const onSubmit = (values) => {
     if (!loading) {
-      loginUser({
-        update(_, { data: { login: userData } }) {
+      addUser({
+        update(_, { data: { register: userData } }) {
           context.login(userData);
           history.push("/");
         },
@@ -54,7 +100,8 @@ function SignIn(props) {
       })
         .catch(({ graphQLErrors, networkError }) => {
           if (graphQLErrors.length > 0 && !networkError) {
-            setAlertError(graphQLErrors[0].extensions.exception.errors.general);
+            let errors = graphQLErrors[0].extensions.exception.errors;
+            setAlertError(errors.password || errors.email);
           } else {
             setAlertError(
               "Cannot communicate with server. Please check your connection and try again."
@@ -80,13 +127,33 @@ function SignIn(props) {
             }
           />
           <Typography component="h1" variant="h5">
-            Sign In
+            Sign Up
           </Typography>
           <form
             className={classes.form}
             onSubmit={handleSubmit(onSubmit)}
             noValidate
           >
+            <Controller
+              name="username"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  error={!lodash.isEmpty(errors.username)}
+                  helperText={errors.username?.message}
+                  id="username"
+                  required
+                  autoFocus
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  label="Username"
+                  autoComplete="username"
+                  {...field}
+                />
+              )}
+            />
             <Controller
               name="email"
               control={control}
@@ -97,7 +164,6 @@ function SignIn(props) {
                   helperText={errors.email?.message}
                   id="email"
                   required
-                  autoFocus
                   fullWidth
                   margin="normal"
                   variant="outlined"
@@ -122,7 +188,28 @@ function SignIn(props) {
                   margin="normal"
                   label="Password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
+                  {...field}
+                />
+              )}
+            />
+            <PasswordMeter password={watch("password") || ""} />
+            <Controller
+              name="confirmPassword"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  error={!lodash.isEmpty(errors.confirmPassword)}
+                  helperText={errors.confirmPassword?.message}
+                  fullWidth
+                  required
+                  id="confirmPassword"
+                  variant="outlined"
+                  margin="normal"
+                  label="Confirm Password"
+                  type="password"
+                  autoComplete="confirm-new-password"
                   {...field}
                 />
               )}
@@ -137,13 +224,13 @@ function SignIn(props) {
               {loading ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                <>Sign In</>
+                <>Sign Up</>
               )}
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="/signup" variant="body2">
-                  Don't have an account? Sign Up
+                <Link href="/signin" variant="body2">
+                  Already have an account? Sign In
                 </Link>
               </Grid>
             </Grid>
@@ -163,4 +250,4 @@ function SignIn(props) {
   );
 }
 
-export default SignIn;
+export default SignUp;

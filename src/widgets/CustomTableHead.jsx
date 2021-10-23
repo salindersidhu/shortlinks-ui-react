@@ -1,15 +1,22 @@
 import React from "react";
-
 import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
 
-import {
-  TableRow,
-  TableCell,
-  TableHead,
-  TableSortLabel,
-} from "@material-ui/core";
+import { TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
 
-import useStyles from "./styles";
+const useStyles = makeStyles((theme) => ({
+  visuallyHidden: {
+    border: 0,
+    clip: "rect(0 0 0 0)",
+    height: 1,
+    margin: -1,
+    overflow: "hidden",
+    padding: 0,
+    position: "absolute",
+    top: 20,
+    width: 1,
+  },
+}));
 
 function CustomTableHead(props) {
   const { cols, order, orderBy, onRequestSort } = props;

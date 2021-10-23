@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-
 import PropTypes from "prop-types";
-
 import {
   Table,
-  TableRow,
-  TableCell,
   TableBody,
+  TableCell,
+  TableRow,
   TableContainer,
   TablePagination,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import useStyles from "./styles";
 import CustomTableHead from "./CustomTableHead";
 import CustomTableToolbar from "./CustomTableToolbar";
-import { getComparator, stableSort } from "../../utils";
+import { getComparator, stableSort } from "../utils";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  table: {
+    minWidth: 750,
+  },
+}));
 
 function DataTable(props) {
   const { rows, cols, title } = props;

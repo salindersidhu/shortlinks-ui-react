@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-
-import zxcvbn from "zxcvbn";
 import PropTypes from "prop-types";
-
-import { Box, Typography, LinearProgress } from "@material-ui/core";
+import zxcvbn from "zxcvbn";
+import { Box, Typography, LinearProgress } from "@mui/material";
 
 function PasswordMeter(props) {
   const { password, description } = props;

@@ -1,13 +1,11 @@
 import React from "react";
-
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Apollo from "./graphql/Apollo";
 import { AuthProvider } from "./context/auth";
 import { CustomThemeProvider } from "./context/theme";
-
-import { SignUp, SignIn, Dashboard } from "./pages";
-import { PublicRoute, PrivateRoute } from "./components";
+import { Dashboard, SignIn, SignUp } from "./pages";
+import { PrivateRoute, PublicRoute } from "./components";
 
 function App() {
   return (
@@ -15,26 +13,29 @@ function App() {
       <Apollo>
         <AuthProvider>
           <Router>
-            <Switch>
-              <PrivateRoute
+            <Routes>
+              <Route
                 exact
                 path="/"
-                rootPath="/signin"
-                component={Dashboard}
-              />
-              <PublicRoute
+                element={<PrivateRoute rootPath="/signin" />}
+              >
+                <Route exact path="/" element={<Dashboard />} />
+              </Route>
+              <Route
                 exact
                 path="/signin"
-                authPath="/"
-                component={SignIn}
-              />
-              <PublicRoute
+                element={<PublicRoute authPath="/" />}
+              >
+                <Route exact path="/signin" element={<SignIn />} />
+              </Route>
+              <Route
                 exact
                 path="/signup"
-                authPath="/"
-                component={SignUp}
-              />
-            </Switch>
+                element={<PublicRoute authPath="/" />}
+              >
+                <Route exact path="/signup" element={<SignUp />} />
+              </Route>
+            </Routes>
           </Router>
         </AuthProvider>
       </Apollo>

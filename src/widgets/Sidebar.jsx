@@ -1,23 +1,53 @@
 import React from "react";
-
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import {
-  List,
+  ChevronLeft as ChevronLeftIcon,
+  Dashboard as DashboardIcon,
+} from "@mui/icons-material";
+import {
   Drawer,
   Divider,
-  ListItem,
   IconButton,
+  List,
+  ListItem,
   ListItemIcon,
   ListItemText,
-} from "@material-ui/core";
-import {
-  Dashboard as DashboardIcon,
-  ChevronLeft as ChevronLeftIcon,
-} from "@material-ui/icons";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
-import useStyles from "./styles";
+const DRAWER_WIDTH = 240;
+
+const useStyles = makeStyles((theme) => ({
+  toolbarIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar,
+  },
+  drawerPaper: {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: DRAWER_WIDTH,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9),
+    },
+  },
+}));
 
 function Sidebar(props) {
   const { isDrawerOpen, onCloseDrawer } = props;

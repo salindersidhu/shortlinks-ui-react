@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import {
-  Dialog,
   Button,
-  DialogTitle,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-} from "@material-ui/core";
+  DialogTitle,
+} from "@mui/material";
 
 function Alert(props) {
   const { title, visible, onClose, description } = props;

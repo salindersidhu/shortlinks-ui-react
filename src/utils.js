@@ -1,12 +1,3 @@
-import process from "process";
-
-const development =
-  !process.env.NODE_ENV || process.env.NODE_ENV === "development";
-
-function isDevelopment() {
-  return development;
-}
-
 function browserifyLink(link) {
   return !link.match(/^(http|https):\/\//i) ? `http://${link}` : link;
 }
@@ -46,10 +37,4 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export {
-  stableSort,
-  isDevelopment,
-  getComparator,
-  browserifyLink,
-  copyToClipboard,
-};
+export { stableSort, getComparator, browserifyLink, copyToClipboard };
